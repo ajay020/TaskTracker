@@ -1,30 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TaskList from "../components/TaskList";
-import api from "../api/api";
-import { Server } from "../utils/config";
-import { Box } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
+import { useGetTasks } from "../hooks/useGetTasks";
+import DrawerLeft from "../components/Drawer";
 
 const Home = () => {
-  const [tasks, setTasks] = useState([]);
+  const [stale, setStale] = useState({ stale: false });
+  const [{ tasks, isLoading, isError }] = useGetTasks(stale);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const tasks = await api.listDocuments(
-        Server.databaseID,
-        Server.collectionID
-      );
+  console.log("Home render");
 
-      setTasks(tasks.documents);
+  //   console.log({ tasks });
 
-      console.log({ tasks });
-    };
-
-    fetchTasks();
-  }, []);
-
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+  if (isError) {
+    return <h2>Something went wrong...</h2>;
+  }
   return (
-    <Box sx={{ background: "#ccc", p: "3px", mx: "auto", width: "500px" }}>
-      <TaskList tasks={tasks} />
+    <Box>
+      <DrawerLeft tasks={tasks} />
     </Box>
   );
 };

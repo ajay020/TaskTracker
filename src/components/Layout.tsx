@@ -8,7 +8,7 @@ type PropType = {
 const Layout = ({ children }: PropType) => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main>{children}</main>
     </>
   );

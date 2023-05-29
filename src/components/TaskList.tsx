@@ -9,7 +9,7 @@ const TaskList = ({ tasks }: PropType) => {
   return (
     <>
       {tasks.map((task) => {
-        return <Task key={task.description} task={task} />;
+        return <Task key={task["$id"]} task={task} />;
       })}
     </>
   );

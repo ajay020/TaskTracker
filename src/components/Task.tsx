@@ -13,8 +13,6 @@ type PropType = {
 };
 
 const Task = ({ task }: PropType) => {
-  console.log({ task });
-
   const handleDelete = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     task: TaskType
@@ -43,7 +41,7 @@ const Task = ({ task }: PropType) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button component="a" size="small">
+        <Button size="small">
           <Link to={`/update-task/${task["$id"]}`}>Update</Link>
         </Button>
         <Button onClick={(e) => handleDelete(e, task)} size="small">

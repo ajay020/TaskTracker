@@ -4,13 +4,14 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import account from "../utils/appwrite";
-import { UserContext } from "./AuthProvider";
+import { UserContext } from "./UserProvider";
+import api from "../api/api";
+import { SET_ERROR, SET_LOADING, SET_USER } from "../types/user";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(UserContext) ?? {};
+  const { isLoading, isError, dispatch } = useContext(UserContext) ?? {};
 
   const navigate = useNavigate();
 
@@ -25,22 +26,27 @@ const LoginForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      await account.createEmailSession(email, password);
-      const userData = await account.get();
-      console.log({ userData });
-      if (setUser) {
-        setUser(userData);
+    if (dispatch) {
+      dispatch({ type: SET_LOADING });
+      try {
+        await api.createSession(email, password);
+        const user = await api.getAccount();
+        dispatch({ type: SET_USER, payload: user });
+
+        navigate("/");
+      } catch (error) {
+        dispatch({ type: SET_ERROR });
+        console.log(error);
       }
-      navigate("/add-task");
-    } catch (error) {
-      console.log(error);
     }
   };
 
   return (
     <Container maxWidth="sm">
       <Typography variant="h2">Login</Typography>
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Something went wrong</p>}
+
       <form onSubmit={handleSubmit}>
         <TextField
           label="Email"

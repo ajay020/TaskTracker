@@ -6,7 +6,7 @@ import api from "../api/api";
 import { Server } from "../utils/config";
 //@ts-ignore
 import { Permission, Role } from "appwrite";
-import { UserContext } from "./AuthProvider";
+import { UserContext } from "./UserProvider";
 import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {

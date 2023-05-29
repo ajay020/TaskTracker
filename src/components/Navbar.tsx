@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,21 +13,21 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-import { UserContext } from "./AuthProvider";
+import { UserContext } from "./UserProvider";
+import { SET_ERROR, SET_LOADING, SET_USER } from "../types/user";
+import api from "../api/api";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+type PropType = {
+  handleDrawerOpen: () => void;
+  open: boolean;
+};
 
-function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+function Navbar({ handleDrawerOpen, open }: PropType) {
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const { user } = useContext(UserContext) ?? {};
+  const { user, dispatch } = useContext(UserContext) ?? {};
 
-  console.log({ user });
   console.log("Navbar render");
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -45,10 +45,35 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
+  const handleLogut = async () => {
+    // close user menu
+    setAnchorElUser(null);
+
+    if (user && dispatch) {
+      dispatch({ type: SET_LOADING });
+      try {
+        await api.deleteCurrentSession();
+        dispatch({ type: SET_USER, payload: null });
+      } catch (e) {
+        dispatch({ type: SET_ERROR });
+        console.error(e);
+      }
+    }
+  };
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: "none" }) }}
+          >
+            <MenuIcon />
+          </IconButton>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -163,11 +188,18 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography textAlign="center">Account</Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography textAlign="center">Dashboard</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleLogut}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
