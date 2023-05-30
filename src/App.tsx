@@ -10,21 +10,27 @@ import UpdateTask from "./pages/UpdateTask";
 import "./App.css";
 //@ts-ignore
 import { useGetUser } from "./hooks/useGetUser";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <>
-      <UserProvider>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/add-task" element={<AddTask />} />
-            <Route path="/update-task/:taskId" element={<UpdateTask />} />
-          </Routes>
-        </Layout>
-      </UserProvider>
+      <QueryClientProvider client={queryClient}>
+        <UserProvider>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/add-task" element={<AddTask />} />
+              <Route path="/update-task/:taskId" element={<UpdateTask />} />
+            </Routes>
+          </Layout>
+        </UserProvider>
+      </QueryClientProvider>
     </>
   );
 }

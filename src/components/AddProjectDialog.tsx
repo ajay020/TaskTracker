@@ -8,6 +8,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import api from "../api/api";
 import { Server } from "../utils/config";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Typography } from "@mui/material";
 
 type PropType = {
   openDialog: boolean;
@@ -20,15 +22,34 @@ export default function AddProjectDialog({
 }: PropType) {
   const [name, setName] = useState("");
 
-  const createProject = async () => {
+  // Access the client
+  const queryClient = useQueryClient();
+
+  const createProject = async (name: string) => {
     const project = await api.createDocument(
       Server.databaseID,
       Server.projectCollectionId,
       { name },
       []
     );
-    console.log({ project });
-    handleCloseDialog();
+    return project;
+  };
+
+  const { mutate, error, isError, isLoading } = useMutation({
+    mutationFn: createProject,
+    onSuccess: (data) => {
+      handleCloseDialog();
+
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleAddProject = () => {
+    mutate(name);
   };
 
   return (
@@ -36,6 +57,12 @@ export default function AddProjectDialog({
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>New Project</DialogTitle>
         <DialogContent>
+          {isError && (
+            <Typography sx={{ color: "red" }}>{error as string}</Typography>
+          )}
+          {isLoading && (
+            <Typography sx={{ color: "green" }}>Adding...</Typography>
+          )}
           <DialogContentText>
             Creta a project Name. It will help you categories your tasks.
           </DialogContentText>
@@ -51,7 +78,7 @@ export default function AddProjectDialog({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={createProject}>Create</Button>
+          <Button onClick={handleAddProject}>Create</Button>
         </DialogActions>
       </Dialog>
     </div>

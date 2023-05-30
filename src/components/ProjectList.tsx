@@ -10,9 +10,21 @@ import MailIcon from "@mui/icons-material/Mail";
 import { AddCircleSharp } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import AddProjectDialog from "./AddProjectDialog";
+import { useQuery } from "@tanstack/react-query";
+import api from "../api/api";
+import { Server } from "../utils/config";
+
+const getProjects = async () => {
+  return api.listDocuments(Server.databaseID, Server.projectCollectionId);
+};
 
 const ProjectList = () => {
   const [openDialog, setOpenDialog] = useState(false);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+  });
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -21,6 +33,14 @@ const ProjectList = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Something is not right.</p>;
+  }
 
   return (
     <div>
@@ -49,13 +69,13 @@ const ProjectList = () => {
       </List>
       <Divider />
       <List>
-        {["Personal", "School", "Work"].map((text) => (
-          <ListItem key={text} disablePadding>
+        {data?.documents?.map(({ name, $id }: Project) => (
+          <ListItem key={$id} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={name} />
             </ListItemButton>
           </ListItem>
         ))}
