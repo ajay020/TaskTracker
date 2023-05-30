@@ -1,6 +1,5 @@
 import { useState } from "react";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -10,21 +9,12 @@ import MailIcon from "@mui/icons-material/Mail";
 import { AddCircleSharp } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import AddProjectDialog from "./AddProjectDialog";
-import { useQuery } from "@tanstack/react-query";
-import api from "../api/api";
-import { Server } from "../utils/config";
-
-const getProjects = async () => {
-  return api.listDocuments(Server.databaseID, Server.projectCollectionId);
-};
+import { useGetProjects } from "../hooks/useGetProjects";
 
 const ProjectList = () => {
   const [openDialog, setOpenDialog] = useState(false);
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["projects"],
-    queryFn: getProjects,
-  });
+  //@ts-ignore
+  const [{ data, isLoading, isError }] = useGetProjects();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -89,3 +79,6 @@ const ProjectList = () => {
 };
 
 export default ProjectList;
+function userGetProjects() {
+  throw new Error("Function not implemented.");
+}

@@ -40,8 +40,18 @@ export default function AddProjectDialog({
     onSuccess: (data) => {
       handleCloseDialog();
 
+      // Update the project list in the cache manually
+      queryClient.setQueryData(["projects"], (oldData: any) => {
+        // Add the new project to the existing project list
+        console.log({ oldData });
+        return {
+          documents: [...oldData?.documents, { ...data }],
+          count: oldData.count + 1,
+        };
+      });
+
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      //   queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: (error) => {
       console.log(error);

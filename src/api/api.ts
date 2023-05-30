@@ -45,7 +45,6 @@ let api = {
 
   // @ts-ignore
   createDocument: (databaseId, collectionId, data, permissions) => {
-    console.log({ data });
     // @ts-ignore
     return api
       .provider()
