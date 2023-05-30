@@ -7,6 +7,8 @@ export type TaskType = {
   $updatedAt: string;
   description: string;
   title: string;
+  user: string;
+  category: string;
 };
 
 export const SET_LOADING = "SET_LOADING";

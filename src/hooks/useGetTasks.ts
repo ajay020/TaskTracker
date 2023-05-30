@@ -47,7 +47,7 @@ export const useGetTasks = (stale: { stale: boolean }) => {
       try {
         const data = await api.listDocuments(
           Server.databaseID,
-          Server.collectionID
+          Server.taskCollectionID
         );
 
         if (!didCancel) {
