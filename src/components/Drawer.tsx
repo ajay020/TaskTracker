@@ -1,4 +1,5 @@
 import { styled, useTheme } from "@mui/material/styles";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -82,6 +83,28 @@ type PropType = {
 export default function DrawerLeft({ tasks }: PropType) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<null | string>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleProjectItemClick = (project: string) => {
+    setSelectedProject(project);
+    navigate(`?project=${project}`);
+  };
+
+  let filteredTasks;
+
+  // Filter the tasks based on the URL search parameters
+  const queryParams = new URLSearchParams(location.search);
+  const param = queryParams.get("project");
+  if (param) {
+    filteredTasks = tasks.filter((task) => task.project === param);
+  } else {
+    // filter tasks based on the selected project
+    filteredTasks = selectedProject
+      ? tasks.filter((task) => task.project === selectedProject)
+      : tasks;
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -122,12 +145,12 @@ export default function DrawerLeft({ tasks }: PropType) {
         <Divider />
 
         {/* Project category list  */}
-        <ProjectList />
+        <ProjectList handleProjectItemClick={handleProjectItemClick} />
         {/* Project category list  */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <TaskList tasks={tasks} />
+        <TaskList tasks={filteredTasks} />
       </Main>
     </Box>
   );

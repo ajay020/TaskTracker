@@ -8,7 +8,7 @@ export type TaskType = {
   description: string;
   title: string;
   user: string;
-  category: string;
+  project: string;
 };
 
 export const SET_LOADING = "SET_LOADING";

@@ -11,7 +11,11 @@ import Divider from "@mui/material/Divider";
 import AddProjectDialog from "./AddProjectDialog";
 import { useGetProjects } from "../hooks/useGetProjects";
 
-const ProjectList = () => {
+type PropType = {
+  handleProjectItemClick: (p: string) => void;
+};
+
+const ProjectList = ({ handleProjectItemClick }: PropType) => {
   const [openDialog, setOpenDialog] = useState(false);
   //@ts-ignore
   const [{ data, isLoading, isError }] = useGetProjects();
@@ -61,7 +65,7 @@ const ProjectList = () => {
       <List>
         {data?.documents?.map(({ name, $id }: Project) => (
           <ListItem key={$id} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleProjectItemClick(name)}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
@@ -79,6 +83,3 @@ const ProjectList = () => {
 };
 
 export default ProjectList;
-function userGetProjects() {
-  throw new Error("Function not implemented.");
-}
