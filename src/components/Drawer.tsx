@@ -148,7 +148,7 @@ export default function DrawerLeft({ tasks }: PropType) {
         <ProjectList handleProjectItemClick={handleProjectItemClick} />
         {/* Project category list  */}
       </Drawer>
-      <Main open={open}>
+      <Main open={open} sx={{ background: "gray" }}>
         <DrawerHeader />
         <TaskList tasks={filteredTasks} />
       </Main>

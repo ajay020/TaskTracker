@@ -18,7 +18,7 @@ export default function ResponsiveDatePickers({
       <DemoContainer
         components={["DatePicker", "MobileDatePicker", "DesktopDatePicker"]}
       >
-        <DemoItem label="Responsive variant">
+        <DemoItem label="Due Date">
           <DatePicker
             value={selectedDueDate}
             onChange={(newVal) => handleDueDateChange(newVal)}

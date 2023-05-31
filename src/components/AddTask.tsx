@@ -10,19 +10,17 @@ import { Server } from "../utils/config";
 import { Permission, Role } from "appwrite";
 import { UserContext } from "./UserProvider";
 import { useNavigate } from "react-router-dom";
-import BasicSelect from "./Select";
-import { useGetProjects } from "../hooks/useGetProjects";
 import MyDatePicker from "./MyDatePicker";
 import Box from "@mui/material/Box";
 import { Dayjs } from "dayjs";
+import { Priority } from "../types/task";
+import PrioritySelect from "./PrioritySelect";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedProject, setSelectedProject] = useState("");
   const [selectedDueDate, setSelectedDueDate] = useState<Dayjs | null>(null);
-
-  const [{ data }] = useGetProjects();
+  const [priority, setPriority] = useState<Priority>(Priority.Low);
 
   const { user } = useContext(UserContext) ?? {};
 
@@ -38,15 +36,15 @@ const AddTask = () => {
     setDescription(event.target.value);
   };
 
-  const handleProjectChange = (event: SelectChangeEvent) => {
-    setSelectedProject(event.target.value as string);
-    console.log(event.target.value);
-  };
-
   const handleDueDateChange = (newDate: Dayjs | null) => {
     setSelectedDueDate(newDate);
     // newDate?.format("DD/MM/YYYY");
     // console.log(newDate);
+  };
+
+  const handlePriorityChange = (e: SelectChangeEvent) => {
+    console.log(e.target.value);
+    setPriority(e.target.value as Priority);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -57,9 +55,9 @@ const AddTask = () => {
     const task = {
       title,
       description,
-      project: selectedProject,
       user: user?.$id,
       due_date: selectedDueDate,
+      priority,
     };
     const res = await api.createDocument(
       Server.databaseID,
@@ -92,12 +90,19 @@ const AddTask = () => {
           margin="normal"
         />
         {/* select project  */}
-        <BasicSelect
+        {/* <BasicSelect
           handleProjectChange={handleProjectChange}
           selectedProject={selectedProject}
           projects={data?.documents}
-        />
+        /> */}
         {/* select project  */}
+
+        {/* select priority  */}
+        <PrioritySelect
+          handlePriorityChange={handlePriorityChange}
+          priority={priority}
+        />
+        {/* select priority  */}
 
         <Box sx={{ my: 2 }}>
           <MyDatePicker

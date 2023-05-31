@@ -23,7 +23,6 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              {/* <Route path="/tasks/:project" element={<Home />} /> */}
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/add-task" element={<AddTask />} />

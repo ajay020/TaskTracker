@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -16,7 +16,15 @@ const UpdateTask = () => {
     description: "",
   });
 
+  //   const [{ data }] = useGetProjects();
+
+  //   const [selectedProject, setSelectedProject] = useState("");
   //   const { user } = useContext(UserContext) ?? {};
+
+  //   const handleProjectChange = (event: SelectChangeEvent) => {
+  //     setSelectedProject(event.target.value as string);
+  //     console.log(event.target.value);
+  //   };
 
   const { taskId } = useParams();
   const navigate = useNavigate();
@@ -26,7 +34,7 @@ const UpdateTask = () => {
       try {
         const task = (await api.getDocument(
           Server.databaseID,
-          Server.collectionID,
+          Server.taskCollectionID,
           taskId
         )) as TaskType;
         setTask(task);
@@ -56,7 +64,7 @@ const UpdateTask = () => {
 
     const res = await api.updateDocument(
       Server.databaseID,
-      Server.collectionID,
+      Server.taskCollectionID,
       task?.["$id"],
       { title: task?.title, description: task?.description }
     );
