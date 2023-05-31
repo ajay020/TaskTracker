@@ -12,11 +12,16 @@ import { UserContext } from "./UserProvider";
 import { useNavigate } from "react-router-dom";
 import BasicSelect from "./Select";
 import { useGetProjects } from "../hooks/useGetProjects";
+import MyDatePicker from "./MyDatePicker";
+import Box from "@mui/material/Box";
+import { Dayjs } from "dayjs";
 
 const AddTask = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
+  const [selectedDueDate, setSelectedDueDate] = useState<Dayjs | null>(null);
+
   const [{ data }] = useGetProjects();
 
   const { user } = useContext(UserContext) ?? {};
@@ -38,6 +43,12 @@ const AddTask = () => {
     console.log(event.target.value);
   };
 
+  const handleDueDateChange = (newDate: Dayjs | null) => {
+    setSelectedDueDate(newDate);
+    // newDate?.format("DD/MM/YYYY");
+    // console.log(newDate);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -48,6 +59,7 @@ const AddTask = () => {
       description,
       project: selectedProject,
       user: user?.$id,
+      due_date: selectedDueDate,
     };
     const res = await api.createDocument(
       Server.databaseID,
@@ -86,6 +98,13 @@ const AddTask = () => {
           projects={data?.documents}
         />
         {/* select project  */}
+
+        <Box sx={{ my: 2 }}>
+          <MyDatePicker
+            handleDueDateChange={handleDueDateChange}
+            selectedDueDate={selectedDueDate}
+          />
+        </Box>
 
         <Button type="submit" variant="contained" color="primary">
           Add
