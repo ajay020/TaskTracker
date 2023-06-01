@@ -89,13 +89,6 @@ const AddTask = () => {
           fullWidth
           margin="normal"
         />
-        {/* select project  */}
-        {/* <BasicSelect
-          handleProjectChange={handleProjectChange}
-          selectedProject={selectedProject}
-          projects={data?.documents}
-        /> */}
-        {/* select project  */}
 
         {/* select priority  */}
         <PrioritySelect

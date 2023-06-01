@@ -9,6 +9,8 @@ export type TaskType = {
   title: string;
   user: string;
   project: string;
+  due_date: Date;
+  priority: Priority;
 };
 
 export enum Priority {

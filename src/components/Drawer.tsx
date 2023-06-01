@@ -98,7 +98,7 @@ export default function DrawerLeft({ tasks }: PropType) {
   const queryParams = new URLSearchParams(location.search);
   const param = queryParams.get("project");
   if (param) {
-    filteredTasks = tasks.filter((task) => task.project === param);
+    filteredTasks = tasks?.filter((task) => task.project === param);
   } else {
     // filter tasks based on the selected project
     filteredTasks = selectedProject

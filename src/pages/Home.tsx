@@ -2,14 +2,23 @@ import { useState } from "react";
 import { Box, Drawer } from "@mui/material";
 import { useGetTasks } from "../hooks/useGetTasks";
 import DrawerLeft from "../components/Drawer";
+import { useQuery } from "@tanstack/react-query";
+import api from "../api/api";
+import { Server } from "../utils/config";
+
+const getTasks = async () => {
+  return await api.listDocuments(Server.databaseID, Server.taskCollectionID);
+};
 
 const Home = () => {
   const [stale, setStale] = useState({ stale: false });
-  const [{ tasks, isLoading, isError }] = useGetTasks(stale);
+  //   const [{ tasks, isLoading, isError }] = useGetTasks(stale);
 
   console.log("Home render");
 
-  //   console.log({ tasks });
+  const { data, isLoading, isError } = useQuery(["tasks"], getTasks);
+
+  //   console.log({ query });
 
   if (isLoading) {
     return <h2>Loading...</h2>;
@@ -19,7 +28,7 @@ const Home = () => {
   }
   return (
     <Box>
-      <DrawerLeft tasks={tasks} />
+      <DrawerLeft tasks={data?.documents} />
     </Box>
   );
 };
