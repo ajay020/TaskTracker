@@ -4,7 +4,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { TaskType } from "../types/task";
+import { Priority, TaskType } from "../types/task";
 import api from "../api/api";
 import { Server } from "../utils/config";
 import Chip from "@mui/material/Chip";
@@ -21,6 +21,8 @@ import IconButton from "@mui/material/IconButton";
 import Delete from "@mui/icons-material/Delete";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { format, parse } from "date-fns";
+import { formatDate } from "../utils/formatter";
 
 type PropType = {
   task: TaskType;
@@ -110,8 +112,22 @@ const Task = ({ task }: PropType) => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const priorityColor =
+    task.priority === Priority.High
+      ? "error"
+      : task.priority === Priority.Medium
+      ? "warning"
+      : "primary";
+
+  //   Format due date
+  let formattedDueDate;
+  if (task.due_date) {
+    formattedDueDate = formatDate(task.due_date, "EEE, MMM d");
+  }
+
   return (
     <Card sx={{ maxWidth: 600, my: 4, mx: "auto" }}>
+      {isError && <p>Something went wrong.</p>}
       <CardHeader
         sx={{ background: "teal", p: 0.5 }}
         avatar={
@@ -174,7 +190,7 @@ const Task = ({ task }: PropType) => {
       <CardActions>
         <Chip
           icon={<AlarmIcon />}
-          label={`${task.due_date}`}
+          label={formattedDueDate ? formattedDueDate : "Set due date"}
           component="a"
           href="#basic-chip"
           variant="outlined"
@@ -187,7 +203,7 @@ const Task = ({ task }: PropType) => {
           href="#basic-chip"
           variant="outlined"
           clickable
-          color="error"
+          color={priorityColor}
           size="small"
         />
       </CardActions>
