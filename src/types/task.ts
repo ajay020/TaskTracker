@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export type TaskType = {
   $collectionId: string;
   $createdAt: string;
@@ -9,7 +11,7 @@ export type TaskType = {
   title: string;
   user: string;
   project: string;
-  due_date: Date;
+  due_date: Dayjs | null;
   priority: Priority;
 };
 

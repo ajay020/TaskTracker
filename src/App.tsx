@@ -22,10 +22,11 @@ function App() {
         <UserProvider>
           <Layout>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home />}>
+                <Route path="/add-task" element={<AddTask />} />
+              </Route>
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
-              <Route path="/add-task" element={<AddTask />} />
               <Route path="/update-task/:taskId" element={<UpdateTask />} />
             </Routes>
           </Layout>
