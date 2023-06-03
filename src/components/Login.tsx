@@ -1,16 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { UserContext } from "./UserProvider";
 import api from "../api/api";
-import { SET_ERROR, SET_LOADING, SET_USER } from "../types/user";
 
 import timeImg from "../assets/time_management.svg";
 import { makeStyles } from "@material-ui/core";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,10 +28,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   submitButton: {
-    margin: theme.spacing(2, 0, 2),
+    margin: theme.spacing(4, 0, 2, 0),
   },
   loginLink: {
     color: theme.palette.primary.main,
+    margin: theme.spacing(2, 0, 2),
   },
   image: {
     width: "100%",
@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoading, isError, dispatch } = useContext(UserContext) ?? {};
 
   const navigate = useNavigate();
   const classes = useStyles();
@@ -56,21 +55,33 @@ const LoginForm = () => {
     setPassword(event.target.value);
   };
 
+  const updateUser = async () => {
+    const user = await api.getAccount();
+    return user;
+  };
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: updateUser,
+    onSuccess: (user) => {
+      console.log({ user });
+
+      queryClient.setQueryData(["user"], () => {
+        return { ...user };
+      });
+    },
+  });
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (dispatch) {
-      dispatch({ type: SET_LOADING });
-      try {
-        await api.createSession(email, password);
-        const user = await api.getAccount();
-        dispatch({ type: SET_USER, payload: user });
-
-        navigate("/");
-      } catch (error) {
-        dispatch({ type: SET_ERROR });
-        console.log(error);
-      }
+    try {
+      await api.createSession(email, password);
+      mutate();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -114,6 +125,7 @@ const LoginForm = () => {
               color="primary"
               fullWidth
               className={classes.submitButton}
+              sx={{ my: 2 }}
             >
               Login
             </Button>

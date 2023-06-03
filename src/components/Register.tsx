@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 // @ts-ignore
 import account from "../utils/appwrite";
 // @ts-ignore
 import { ID } from "appwrite";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import Box from "@mui/material/Box";
 
@@ -51,6 +50,7 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
 
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -69,6 +69,7 @@ const RegisterForm = () => {
 
     try {
       const response = await account.create(ID.unique(), email, password, name);
+      navigate("/");
       console.log("Registration successful", response);
     } catch (error) {
       console.error("Registration failed", error);
@@ -124,6 +125,7 @@ const RegisterForm = () => {
               color="primary"
               fullWidth
               className={classes.submitButton}
+              sx={{ my: 2 }}
             >
               Register
             </Button>
