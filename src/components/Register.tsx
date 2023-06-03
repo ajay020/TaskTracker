@@ -8,11 +8,49 @@ import Typography from "@mui/material/Typography";
 import account from "../utils/appwrite";
 // @ts-ignore
 import { ID } from "appwrite";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core";
+import Box from "@mui/material/Box";
+
+import timeImg from "../assets/time_management.svg";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "40%",
+    // background: "green",
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+    display: "flex",
+    flexDirection: "column",
+    background: "teal",
+  },
+  textField: {
+    marginBottom: theme.spacing(1),
+  },
+  submitButton: {
+    margin: theme.spacing(2, 0, 2),
+  },
+  loginLink: {
+    color: theme.palette.primary.main,
+  },
+  image: {
+    width: "100%",
+    maxWidth: 500,
+  },
+}));
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const classes = useStyles();
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -38,37 +76,70 @@ const RegisterForm = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h2">Register</Typography>
-
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Name"
-          value={name}
-          onChange={handleNameChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Email"
-          value={email}
-          onChange={handleEmailChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-          fullWidth
-          margin="normal"
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Register
-        </Button>
-      </form>
-    </Container>
+    <Box sx={{ width: "100%", mx: "auto", mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          //   background: "orange",
+        }}
+      >
+        <Box
+          className={classes.root}
+          sx={{ border: "1px solid lightgray", p: 2 }}
+        >
+          <Typography component="h1" variant="h5">
+            Register
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Name"
+              value={name}
+              onChange={handleNameChange}
+              margin="normal"
+              className={classes.textField}
+              fullWidth
+            />
+            <TextField
+              label="Email"
+              value={email}
+              onChange={handleEmailChange}
+              margin="normal"
+              className={classes.textField}
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              margin="normal"
+              className={classes.textField}
+              fullWidth
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              className={classes.submitButton}
+            >
+              Register
+            </Button>
+            <Typography variant="body2">
+              Already have an account?{" "}
+              <Link to="/login" className={classes.loginLink}>
+                Login here
+              </Link>
+            </Typography>
+          </form>
+        </Box>
+        <Box sx={{ ml: 4 }}>
+          <img src={timeImg} className={classes.image} />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
