@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,6 +12,9 @@ import { makeStyles } from "@material-ui/core";
 import Box from "@mui/material/Box";
 
 import timeImg from "../assets/time_management.svg";
+import api from "../api/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { UserContext } from "./UserProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +47,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const registerUser = async ({
+  email,
+  password,
+  name,
+}: {
+  email: string;
+  password: string;
+  name: string;
+}) => {
+  const response = await account.create(ID.unique(), email, password, name);
+  return response;
+};
+
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,6 +67,7 @@ const RegisterForm = () => {
 
   const classes = useStyles();
   const navigate = useNavigate();
+  const { login } = useContext(UserContext) ?? {};
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -64,13 +81,28 @@ const RegisterForm = () => {
     setPassword(event.target.value);
   };
 
+  const queryClient = useQueryClient();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: registerUser,
+    onSuccess: async (data) => {
+      await api.createSession(email, password);
+      queryClient.setQueryData(["user"], () => {
+        return { ...data };
+      });
+      if (login) {
+        login(data);
+        navigate("/");
+      }
+    },
+  });
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      const response = await account.create(ID.unique(), email, password, name);
-      navigate("/");
-      console.log("Registration successful", response);
+      const user = { email, password, name };
+      mutate(user);
     } catch (error) {
       console.error("Registration failed", error);
     }
@@ -93,6 +125,7 @@ const RegisterForm = () => {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
+          {isLoading && <p>Loading...</p>}
           <form onSubmit={handleSubmit}>
             <TextField
               label="Name"

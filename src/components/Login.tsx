@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -10,6 +10,7 @@ import api from "../api/api";
 import timeImg from "../assets/time_management.svg";
 import { makeStyles } from "@material-ui/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { UserContext } from "./UserProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const classes = useStyles();
 
+  const { login } = useContext(UserContext) ?? {};
+
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -65,11 +68,17 @@ const LoginForm = () => {
   const { mutate } = useMutation({
     mutationFn: updateUser,
     onSuccess: (user) => {
-      console.log({ user });
-
       queryClient.setQueryData(["user"], () => {
         return { ...user };
       });
+      console.log({ user });
+      if (login) {
+        login(user);
+        navigate("/");
+      }
+
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
   });
 
@@ -79,7 +88,6 @@ const LoginForm = () => {
     try {
       await api.createSession(email, password);
       mutate();
-      navigate("/");
     } catch (error) {
       console.log(error);
     }

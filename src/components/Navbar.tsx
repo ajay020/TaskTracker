@@ -12,12 +12,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserProvider";
-import { SET_ERROR, SET_LOADING, SET_USER } from "../types/user";
 import api from "../api/api";
 import AddTaskDialog from "./AddTaskDialog";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type PropType = {
   handleDrawerOpen: () => void;
@@ -29,7 +29,8 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { user, dispatch } = useContext(UserContext) ?? {};
+  const { user, logout } = useContext(UserContext) ?? {};
+  const navigate = useNavigate();
 
   console.log("Navbar render");
 
@@ -56,19 +57,34 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
     setAnchorElUser(null);
   };
 
+  const deleteUserSession = async () => {
+    try {
+      await api.deleteCurrentSession();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: deleteUserSession,
+    onSuccess: () => {
+      queryClient.setQueryData(["user"], () => {
+        return null;
+      });
+      if (logout) {
+        logout();
+        navigate("/login");
+      }
+    },
+  });
+
   const handleLogut = async () => {
     // close user menu
     setAnchorElUser(null);
-
-    if (user && dispatch) {
-      dispatch({ type: SET_LOADING });
-      try {
-        await api.deleteCurrentSession();
-        dispatch({ type: SET_USER, payload: null });
-      } catch (e) {
-        dispatch({ type: SET_ERROR });
-        console.error(e);
-      }
+    if (user) {
+      mutate();
     }
   };
 

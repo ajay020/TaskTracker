@@ -11,6 +11,7 @@ import "./App.css";
 import { useGetUser } from "./hooks/useGetUser";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LandingPage from "./pages/LandingPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -22,11 +23,27 @@ function App() {
         <UserProvider>
           <Layout>
             <Routes>
-              <Route path="/" element={<Home />}></Route>
               <Route path="/app" element={<LandingPage />} />
+              <Route
+                path="/"
+                element={
+                  //@ts-ignore
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
-              <Route path="/update-task/:taskId" element={<UpdateTask />} />
+              <Route
+                path="/update-task/:taskId"
+                element={
+                  //@ts-ignore
+                  <ProtectedRoute>
+                    <UpdateTask />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Layout>
         </UserProvider>

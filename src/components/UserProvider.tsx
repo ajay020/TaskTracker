@@ -1,4 +1,4 @@
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { User, UserAction } from "../types/user";
 //@ts-ignore
 import { useGetUser } from "../hooks/useGetUser";
@@ -11,29 +11,36 @@ type PropType = {
 
 type UserContextType = {
   user: User | null;
-  //   isLoading: boolean;
-  //   isError: boolean;
-  //   dispatch: React.Dispatch<UserAction>;
+  login: (a: User) => void;
+  logout: () => void;
 };
 
 export const UserContext = createContext<null | UserContextType>(null);
 
-const fetchUser = async () => {
-  return await api.getAccount();
-};
-
 const UserProvider = ({ children }: PropType) => {
-  // eslint-disable-next-line
-  //   const [{ user, isLoading, isError }, dispatch] = useGetUser();
-
-  const { data, error } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
-  //   console.log({ data });
+  const [user, setUser] = useState<User | null>(null);
+  //   const { data } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
 
   console.log("UserProvider render");
 
+  const login = (userData: User) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await api.getAccount();
+      setUser(user);
+    };
+    fetchUser();
+  }, []);
+
   return (
-    // eslint-disable-next-line
-    <UserContext.Provider value={{ user: data }}>
+    <UserContext.Provider value={{ user, login, logout }}>
       {children}
     </UserContext.Provider>
   );
