@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 import RegisterForm from "./components/Register";
 import LoginForm from "./components/Login";
-import AddTask from "./components/AddTask";
 import UserProvider from "./components/UserProvider";
 
 import Home from "./pages/Home";
@@ -11,6 +10,7 @@ import "./App.css";
 //@ts-ignore
 import { useGetUser } from "./hooks/useGetUser";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LandingPage from "./pages/LandingPage";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -22,9 +22,8 @@ function App() {
         <UserProvider>
           <Layout>
             <Routes>
-              <Route path="/" element={<Home />}>
-                <Route path="/add-task" element={<AddTask />} />
-              </Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/app" element={<LandingPage />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
               <Route path="/update-task/:taskId" element={<UpdateTask />} />
