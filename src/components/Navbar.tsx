@@ -8,16 +8,23 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Avatar from "@mui/material/Avatar";
+import { deepOrange, deepPurple } from "@mui/material/colors";
 import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserProvider";
 import api from "../api/api";
+import Logout from "@mui/icons-material/Logout";
 import AddTaskDialog from "./AddTaskDialog";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Divider } from "@mui/material";
 
 type PropType = {
   handleDrawerOpen: () => void;
@@ -202,7 +209,9 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
                   onClick={handleOpenUserMenu}
                   sx={{ p: 0, color: "white" }}
                 >
-                  <AccountCircle />
+                  <Avatar sx={{ bgcolor: deepPurple[100] }}>
+                    {user?.name[0].toLocaleUpperCase()}
+                  </Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -222,16 +231,21 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem>
-                  <Typography textAlign="center">Profile</Typography>
+                  <ListItemIcon>
+                    <AccountCircle />
+                  </ListItemIcon>
+                  <Stack>
+                    <Typography>{user?.name}</Typography>
+                    <Typography textAlign="center">{user?.email}</Typography>
+                  </Stack>
                 </MenuItem>
-                <MenuItem>
-                  <Typography textAlign="center">Account</Typography>
-                </MenuItem>
-                <MenuItem>
-                  <Typography textAlign="center">Dashboard</Typography>
-                </MenuItem>
+                <Divider />
+
                 <MenuItem onClick={handleLogut}>
-                  <Typography textAlign="center">Logout</Typography>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
                 </MenuItem>
               </Menu>
             </Box>
