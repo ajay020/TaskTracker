@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Navigate, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { UserContext } from "./UserProvider";
 
 type PropType = {
@@ -8,8 +8,7 @@ type PropType = {
 
 function ProtectedRoute({ children }: PropType) {
   const { user } = useContext(UserContext) ?? {};
-  console.log("ProtectedRoute render");
-  console.log({ user });
+  //   console.log("ProtectedRoute render");
   return user ? children : <Navigate to="/login" />;
 }
 

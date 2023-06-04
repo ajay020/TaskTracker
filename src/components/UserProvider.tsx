@@ -1,9 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { User, UserAction } from "../types/user";
+import { User } from "../types/user";
 //@ts-ignore
 import { useGetUser } from "../hooks/useGetUser";
-import { useQuery } from "@tanstack/react-query";
-import api from "../api/api";
 
 type PropType = {
   children: ReactNode;
@@ -15,10 +13,15 @@ type UserContextType = {
   logout: () => void;
 };
 
+const getUserFromLocalStorage: () => User | null = () => {
+  const storedUser = localStorage.getItem("user");
+  return storedUser ? JSON.parse(storedUser) : null;
+};
+
 export const UserContext = createContext<null | UserContextType>(null);
 
 const UserProvider = ({ children }: PropType) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(getUserFromLocalStorage());
   //   const { data } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
 
   console.log("UserProvider render");
@@ -30,14 +33,6 @@ const UserProvider = ({ children }: PropType) => {
   const logout = () => {
     setUser(null);
   };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await api.getAccount();
-      setUser(user);
-    };
-    fetchUser();
-  }, []);
 
   return (
     <UserContext.Provider value={{ user, login, logout }}>

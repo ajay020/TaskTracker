@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
@@ -71,10 +71,10 @@ const LoginForm = () => {
       queryClient.setQueryData(["user"], () => {
         return { ...user };
       });
-      console.log({ user });
       if (login) {
         login(user);
-        navigate("/");
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/app");
       }
 
       // Invalidate and refetch

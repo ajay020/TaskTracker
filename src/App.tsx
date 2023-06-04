@@ -23,9 +23,9 @@ function App() {
         <UserProvider>
           <Layout>
             <Routes>
-              <Route path="/app" element={<LandingPage />} />
+              <Route path="/" element={<LandingPage />} />
               <Route
-                path="/"
+                path="/app"
                 element={
                   //@ts-ignore
                   <ProtectedRoute>

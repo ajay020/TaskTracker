@@ -92,7 +92,8 @@ const RegisterForm = () => {
       });
       if (login) {
         login(data);
-        navigate("/");
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("/app");
       }
     },
   });

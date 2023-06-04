@@ -75,6 +75,7 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
       });
       if (logout) {
         logout();
+        localStorage.removeItem("user");
         navigate("/login");
       }
     },
