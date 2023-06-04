@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Client, Databases, Account, ID } from "appwrite";
+import { Client, Databases, Account, ID, Query } from "appwrite";
 import { Server } from "../utils/config";
 
 let api = {
@@ -58,7 +58,7 @@ let api = {
   },
 
   // @ts-ignore
-  listDocuments: (databaseId, collectionId) => {
+  listDocuments: (databaseId: string, collectionId: string) => {
     // @ts-ignore
     return api.provider().database.listDocuments(databaseId, collectionId);
   },

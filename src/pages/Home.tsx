@@ -3,6 +3,9 @@ import DrawerLeft from "../components/Drawer";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/api";
 import { Server } from "../utils/config";
+import { useContext } from "react";
+import { UserContext } from "../components/UserProvider";
+import { getUserTasks } from "../utils/getUserTasks";
 
 const getTasks = async () => {
   return await api.listDocuments(Server.databaseID, Server.taskCollectionID);
@@ -11,7 +14,11 @@ const getTasks = async () => {
 const Home = () => {
   console.log("Home render");
 
-  const { data, isLoading, isError } = useQuery(["tasks"], getTasks);
+  const { user } = useContext(UserContext) ?? {};
+
+  const { data, isLoading, isError } = useQuery(["tasks", user?.$id], () =>
+    getUserTasks(user?.$id)
+  );
 
   if (isLoading) {
     return <h2>Loading...</h2>;

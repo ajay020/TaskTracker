@@ -178,14 +178,14 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
             >
               TaskTracker
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {/* <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               Link
-            </Box>
+            </Box> */}
 
             {/* <IconButton> */}
             <Button
               onClick={handleOpenDialog}
-              sx={{ color: "white" }}
+              sx={{ color: "white", flexGrow: 0, ml: "auto", mr: 4 }}
               color="success"
               variant="contained"
               startIcon={
@@ -196,17 +196,12 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
             </Button>
             {/* </IconButton> */}
 
-            <Typography sx={{ mr: 3 }}>Hi,{user && user.name}</Typography>
-            <Typography sx={{ mr: 2 }}>
-              <Link to="/register">Register</Link>
-            </Typography>
-            <Typography sx={{ mr: 2 }}>
-              <Link to="/login">Login</Link>
-            </Typography>
-
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0, color: "white" }}
+                >
                   <AccountCircle />
                 </IconButton>
               </Tooltip>

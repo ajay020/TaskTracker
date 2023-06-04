@@ -110,7 +110,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
     <Container maxWidth="sm">
       <Box>
         {isError && (
-          <Typography sx={{ color: "red" }}>{error as string}</Typography>
+          <Typography sx={{ color: "red" }}>Something is wrong..</Typography>
         )}
         {isLoading && (
           <Typography sx={{ color: "green" }}>Adding...</Typography>
