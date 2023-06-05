@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -10,17 +9,12 @@ import React, { useContext, useState } from "react";
 //@ts-ignore
 import { Permission, Role } from "appwrite";
 import { UserContext } from "./UserProvider";
-import { useNavigate } from "react-router-dom";
 import MyDatePicker from "./MyDatePicker";
 import Box from "@mui/material/Box";
 import { Dayjs } from "dayjs";
 import { Priority, TaskType } from "../types/task";
 import PrioritySelect from "./PrioritySelect";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
 
 interface PropType {
@@ -33,7 +27,6 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
   const [selectedDueDate, setSelectedDueDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<Priority>(Priority.Low);
 
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { user } = useContext(UserContext) ?? {};
@@ -51,7 +44,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
     return res;
   }
 
-  const { mutate, error, isError, isLoading } = useMutation({
+  const { mutate, isError, isLoading } = useMutation({
     mutationFn: createTask,
     onSuccess: (data) => {
       // Update the tasks list in the cache manually

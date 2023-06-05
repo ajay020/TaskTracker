@@ -22,7 +22,7 @@ export default function ResponsiveDatePickers({
           <DatePicker
             value={selectedDueDate}
             onChange={(newVal) => handleDueDateChange(newVal)}
-            defaultValue={dayjs("2022-04-17")}
+            defaultValue={dayjs(new Date())}
           />
         </DemoItem>
       </DemoContainer>

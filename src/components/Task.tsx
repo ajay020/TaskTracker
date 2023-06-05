@@ -22,7 +22,7 @@ import Delete from "@mui/icons-material/Delete";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, parse } from "date-fns";
-import { formatDate } from "../utils/formatter";
+import { formatDate } from "../utils/formatDate";
 
 type PropType = {
   task: TaskType;

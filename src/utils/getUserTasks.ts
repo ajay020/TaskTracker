@@ -7,14 +7,11 @@ export const getUserTasks = async (userId: string | undefined) => {
     .setEndpoint("https://cloud.appwrite.io/v1")
     .setProject(Server.project);
 
-  const databases = new Databases(client);
+  const database = new Databases(client);
 
-  return await databases.listDocuments(
+  return await database.listDocuments(
     Server.databaseID,
     Server.taskCollectionID,
-    [
-      Query.equal("user", [userId]),
-      //   Query.equal("title", ["task 1"]),
-    ]
+    [Query.equal("user", [userId])]
   );
 };
