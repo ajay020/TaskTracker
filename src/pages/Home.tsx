@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { UserContext } from "../components/UserProvider";
 import { getUserTasks } from "../utils/getUserTasks";
 import { TaskType } from "../types/task";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const filterTasksByCompleted = (tasks: TaskType[], completed: boolean) => {
   if (tasks) {
@@ -30,13 +31,19 @@ const Home = () => {
   const incompleteTasks = filterTasksByCompleted(data?.documents, false);
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return (
+      <h2>
+        Loading.... <CircularProgress value={67} />
+      </h2>
+    );
   }
+
   if (isError) {
     return <h2>Something went wrong...</h2>;
   }
   return (
     <Box>
+      {isLoading && <CircularProgress value={67} />}
       <DrawerLeft tasks={incompleteTasks} />
     </Box>
   );

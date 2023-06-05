@@ -50,7 +50,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
       // Update the tasks list in the cache manually
       queryClient.setQueryData(["tasks"], (oldData: any) => {
         // Add the new tasks to the existing tasks list
-        console.log({ oldData });
+        // console.log({ oldData });
         return {
           documents: [...oldData?.documents, { ...data }],
           count: oldData.count + 1,

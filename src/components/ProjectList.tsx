@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -10,6 +10,13 @@ import { AddCircleSharp } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import AddProjectDialog from "./AddProjectDialog";
 import { useGetProjects } from "../hooks/useGetProjects";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import MoreHoriz from "@mui/icons-material/MoreHoriz";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import EditProjectPopover from "./EditProjectPopover";
+import ProjectListItem from "./ProjectListItem";
 
 type PropType = {
   handleProjectItemClick: (p: string) => void;
@@ -20,21 +27,13 @@ const ProjectList = ({ handleProjectItemClick }: PropType) => {
   //@ts-ignore
   const [{ data, isLoading, isError }] = useGetProjects();
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = useCallback(() => {
     setOpenDialog(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setOpenDialog(false);
-  };
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (isError) {
-    return <p>Something is not right.</p>;
-  }
+  }, []);
 
   return (
     <div>
@@ -57,21 +56,23 @@ const ProjectList = ({ handleProjectItemClick }: PropType) => {
             <ListItemIcon>
               <AddCircleSharp />
             </ListItemIcon>
-            <ListItemText>Add</ListItemText>
+            <ListItemText>Add New Project</ListItemText>
           </ListItemButton>
         </ListItem>
       </List>
       <Divider />
       <List>
-        {data?.documents?.map(({ name, $id }: Project) => (
-          <ListItem key={$id} disablePadding>
-            <ListItemButton onClick={() => handleProjectItemClick(name)}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItemButton>
+        {isLoading && (
+          <ListItem>
+            <CircularProgress size={"sm"} />
           </ListItem>
+        )}
+        {data?.documents?.map((p: Project) => (
+          <ProjectListItem
+            key={p.$id}
+            project={p}
+            handleProjectItemClick={handleProjectItemClick}
+          />
         ))}
       </List>
       <AddProjectDialog
