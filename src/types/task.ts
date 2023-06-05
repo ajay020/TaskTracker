@@ -13,6 +13,7 @@ export type TaskType = {
   project: string;
   due_date: Dayjs | null;
   priority: Priority;
+  completed: boolean;
 };
 
 export enum Priority {

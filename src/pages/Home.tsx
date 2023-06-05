@@ -4,6 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { UserContext } from "../components/UserProvider";
 import { getUserTasks } from "../utils/getUserTasks";
+import { TaskType } from "../types/task";
+
+const filterTasksByCompleted = (tasks: TaskType[], completed: boolean) => {
+  if (tasks) {
+    return tasks.filter((task) => {
+      if (!task.completed || task.completed === completed) {
+        return true;
+      }
+      return false;
+    });
+  }
+  return [];
+};
 
 const Home = () => {
   console.log("Home render");
@@ -14,6 +27,8 @@ const Home = () => {
     getUserTasks(user?.$id)
   );
 
+  const incompleteTasks = filterTasksByCompleted(data?.documents, false);
+
   if (isLoading) {
     return <h2>Loading...</h2>;
   }
@@ -22,7 +37,7 @@ const Home = () => {
   }
   return (
     <Box>
-      <DrawerLeft tasks={data?.documents} />
+      <DrawerLeft tasks={incompleteTasks} />
     </Box>
   );
 };

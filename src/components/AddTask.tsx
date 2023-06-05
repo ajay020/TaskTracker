@@ -93,6 +93,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
         user: user?.$id,
         due_date: selectedDueDate,
         priority,
+        completed: false,
       };
 
       mutate(task);
