@@ -50,7 +50,7 @@ const ProjectListItem = ({ project, handleProjectItemClick }: PropType) => {
             <EditProjectPopover
               anchorEl={anchorEl}
               handleClose={handleClose}
-              projectId={project.$id}
+              project={project}
             />
           </Box>
         }

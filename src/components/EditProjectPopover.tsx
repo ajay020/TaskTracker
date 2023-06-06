@@ -11,11 +11,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditProjectDialog from "./EditProjectDialog";
 
 interface PropType {
   anchorEl: HTMLButtonElement | null;
   handleClose: () => void;
-  projectId: string;
+  project: Project;
 }
 
 const deleteProject = async (projectId: string) => {
@@ -27,7 +28,16 @@ const deleteProject = async (projectId: string) => {
 };
 
 const EditProjectPopover = (prop: PropType) => {
-  const { anchorEl, handleClose, projectId } = prop;
+  const { anchorEl, handleClose, project } = prop;
+  const [openDialog, setopenDialog] = React.useState(false);
+
+  const handleOpenDialog = () => {
+    setopenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setopenDialog(false);
+  };
 
   //   console.log("Edit Project render");
 
@@ -42,7 +52,7 @@ const EditProjectPopover = (prop: PropType) => {
       handleClose();
       queryClient.setQueriesData(["projects"], (oldProjects: any) => {
         const updatedlist = oldProjects.documents.filter(
-          (p: any) => p.$id !== projectId
+          (p: any) => p.$id !== project.$id
         );
         return {
           documents: [...updatedlist],
@@ -53,7 +63,7 @@ const EditProjectPopover = (prop: PropType) => {
   });
 
   const handleDeleteProject = () => {
-    mutate(projectId);
+    mutate(project.$id);
   };
 
   return (
@@ -69,12 +79,19 @@ const EditProjectPopover = (prop: PropType) => {
     >
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={handleOpenDialog}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
             <ListItemText primary="Edit" />
           </ListItemButton>
+          {/* Edit dialog  */}
+          <EditProjectDialog
+            openDialog={openDialog}
+            handleDialogClose={handleDialogClose}
+            project={project}
+          />
+          {/* Edit dialog  */}
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton onClick={handleDeleteProject}>
