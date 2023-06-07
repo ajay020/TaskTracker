@@ -33,7 +33,7 @@ const Home = () => {
   if (isLoading) {
     return (
       <h2>
-        Loading.... <CircularProgress value={67} />
+        <CircularProgress value={67} />
       </h2>
     );
   }

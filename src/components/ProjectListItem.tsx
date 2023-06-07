@@ -36,7 +36,9 @@ const ProjectListItem = ({ project, handleProjectItemClick }: PropType) => {
       <ListItem
         key={project.$id}
         disablePadding
-        sx={{ pr: 5 }}
+        sx={{
+          pr: 5,
+        }}
         secondaryAction={
           <Box>
             <IconButton

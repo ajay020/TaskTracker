@@ -20,12 +20,21 @@ import ProjectListItem from "./ProjectListItem";
 
 type PropType = {
   handleProjectItemClick: (p: string) => void;
+  handleListItemClick: (f: string) => void;
 };
 
-const ProjectList = ({ handleProjectItemClick }: PropType) => {
+const ProjectList = ({
+  handleProjectItemClick,
+  handleListItemClick,
+}: PropType) => {
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
   //@ts-ignore
   const [{ data, isLoading, isError }] = useGetProjects();
+
+  const handleItemClick = (item: string) => {
+    setSelectedItem(item);
+  };
 
   const handleOpenDialog = useCallback(() => {
     setOpenDialog(true);
@@ -38,11 +47,20 @@ const ProjectList = ({ handleProjectItemClick }: PropType) => {
   return (
     <div>
       <List>
-        {["Today", "Tomorrow", "Upcoming"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+        {["Inbox", "Today", "Upcoming", "Filter tasks"].map((text) => (
+          <ListItem
+            key={text}
+            disablePadding
+            sx={{
+              backgroundColor: selectedItem === text ? "lightgray" : "inherit",
+            }}
+            onClick={() => handleItemClick(text)}
+          >
+            <ListItemButton
+              onClick={() => handleListItemClick(text.toLowerCase())}
+            >
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InboxIcon />
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -62,11 +80,6 @@ const ProjectList = ({ handleProjectItemClick }: PropType) => {
       </List>
       <Divider />
       <List>
-        {isLoading && (
-          <ListItem>
-            <CircularProgress size={"sm"} />
-          </ListItem>
-        )}
         {data?.documents?.map((p: Project) => (
           <ProjectListItem
             key={p.$id}

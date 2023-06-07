@@ -17,6 +17,7 @@ import { useState } from "react";
 import TaskList from "./TaskList";
 import { TaskType } from "../types/task";
 import ProjectList from "./ProjectList";
+import { filterTasks } from "../utils/filterTasks";
 
 const drawerWidth = 240;
 
@@ -84,26 +85,45 @@ export default function DrawerLeft({ tasks }: PropType) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<null | string>(null);
+  const [filterOn, setFilterOn] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
+  let filteredTasks;
+
+  console.log("Drawerleft render");
 
   const handleProjectItemClick = (project: string) => {
-    setSelectedProject(project);
+    // setSelectedProject(project);
     navigate(`?project=${project}`);
   };
 
-  let filteredTasks;
+  const handleListItemClick = (filter: string) => {
+    if (filter === "inbox") {
+      navigate("");
+      setFilterOn("");
+    } else {
+      setFilterOn(filter);
+    }
+  };
 
   // Filter the tasks based on the URL search parameters
   const queryParams = new URLSearchParams(location.search);
   const param = queryParams.get("project");
-  if (param) {
-    filteredTasks = tasks?.filter((task) => task.project === param);
+  if (param && filterOn) {
+    const filteredBytime = filterTasks(tasks, filterOn);
+
+    filteredTasks = filteredBytime?.filter(
+      (task) => task.project?.toLowerCase() === param?.toLowerCase()
+    );
+  } else if (param && !filterOn) {
+    filteredTasks = tasks?.filter(
+      (task) => task.project?.toLowerCase() === param?.toLowerCase()
+    );
+  } else if (filterOn) {
+    filteredTasks = filterTasks(tasks, filterOn);
   } else {
-    // filter tasks based on the selected project
-    filteredTasks = selectedProject
-      ? tasks.filter((task) => task.project === selectedProject)
-      : tasks;
+    filteredTasks = tasks;
   }
 
   const handleDrawerOpen = () => {
@@ -145,7 +165,10 @@ export default function DrawerLeft({ tasks }: PropType) {
         <Divider />
 
         {/* Project category list  */}
-        <ProjectList handleProjectItemClick={handleProjectItemClick} />
+        <ProjectList
+          handleProjectItemClick={handleProjectItemClick}
+          handleListItemClick={handleListItemClick}
+        />
         {/* Project category list  */}
       </Drawer>
       <Main open={open} sx={{ background: "gray" }}>

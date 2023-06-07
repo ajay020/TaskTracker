@@ -205,6 +205,15 @@ const Task = ({ task }: PropType) => {
           color={priorityColor}
           size="small"
         />
+        <Chip
+          label={`${task.project}`}
+          component="a"
+          href="#basic-chip"
+          variant="outlined"
+          clickable
+          color={priorityColor}
+          size="small"
+        />
       </CardActions>
     </Card>
   );

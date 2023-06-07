@@ -2,7 +2,7 @@ import { TaskType } from "../types/task";
 import Task from "./Task";
 
 type PropType = {
-  tasks: TaskType[];
+  tasks: TaskType[] | [];
 };
 
 const TaskList = ({ tasks }: PropType) => {
