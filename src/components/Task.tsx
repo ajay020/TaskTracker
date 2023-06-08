@@ -14,14 +14,13 @@ import Popover from "@mui/material/Popover";
 import Checkbox from "@mui/material/Checkbox";
 
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
-import AlarmIcon from "@mui/icons-material/Alarm";
 
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 import Delete from "@mui/icons-material/Delete";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { formatDate } from "../utils/formatDate";
+import TaskAccordian from "./TaskAccordian";
 
 type PropType = {
   task: TaskType;
@@ -111,21 +110,8 @@ const Task = ({ task }: PropType) => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const priorityColor =
-    task.priority === Priority.High
-      ? "error"
-      : task.priority === Priority.Medium
-      ? "warning"
-      : "primary";
-
-  //   Format due date
-  let formattedDueDate;
-  if (task.due_date) {
-    formattedDueDate = formatDate(task.due_date, "EEE, MMM d");
-  }
-
   return (
-    <Card sx={{ maxWidth: 600, my: 4, mx: "auto" }}>
+    <Card sx={{ mt: 4, mx: "auto" }}>
       {isError && <p>Something went wrong.</p>}
       <CardHeader
         sx={{ background: "teal", p: 0.5 }}
@@ -181,40 +167,15 @@ const Task = ({ task }: PropType) => {
           </Typography>
         }
       />
-      <CardContent sx={{ background: "green" }}>
+      {/* <CardContent sx={{ background: "green" }}>
         <Typography variant="body2" color="text.secondary">
           {task.description.substring(0, 50)}
         </Typography>
-      </CardContent>
-      <CardActions>
-        <Chip
-          icon={<AlarmIcon />}
-          label={formattedDueDate ? formattedDueDate : "Set due date"}
-          component="a"
-          href="#basic-chip"
-          variant="outlined"
-          clickable
-          size="small"
-        />
-        <Chip
-          label={`${task.priority}`}
-          component="a"
-          href="#basic-chip"
-          variant="outlined"
-          clickable
-          color={priorityColor}
-          size="small"
-        />
-        <Chip
-          label={`${task.project}`}
-          component="a"
-          href="#basic-chip"
-          variant="outlined"
-          clickable
-          color={priorityColor}
-          size="small"
-        />
-      </CardActions>
+      </CardContent> */}
+      {/* <CardActions> */}
+
+      <TaskAccordian task={task} />
+      {/* </CardActions> */}
     </Card>
   );
 };

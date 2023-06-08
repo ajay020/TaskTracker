@@ -22,6 +22,18 @@ export enum Priority {
   High = "high",
 }
 
+export interface SubTaskType {
+  $collectionId: string;
+  $createdAt: string;
+  $databaseId: string;
+  $id: string;
+  $permissions: any[];
+  $updatedAt: string;
+  completed: boolean;
+  taskId: string;
+  title: string;
+}
+
 export const SET_LOADING = "SET_LOADING";
 export const SET_ERROR = "SET_ERROR";
 export const SET_TASKS = "SET_TASKS";
