@@ -7,13 +7,21 @@ type PropType = {
   selectedProject: string;
   handleProjectChange: (e: SelectChangeEvent) => void;
   projects: Project[];
+  variant?: "outlined" | "filled" | "standard" | undefined;
+  size?: "small" | "medium" | undefined;
 };
 
 export default function BasicSelect({
   handleProjectChange,
   selectedProject,
-  projects,
+  projects = [],
+  variant = "outlined",
+  size = "medium",
 }: PropType) {
+  if (!projects) {
+    return null;
+  }
+
   return (
     <Box margin="normal" sx={{ my: 2 }}>
       <InputLabel id="project-select">Project</InputLabel>
@@ -25,14 +33,18 @@ export default function BasicSelect({
         fullWidth
         onChange={handleProjectChange}
         defaultValue=""
+        variant={variant}
+        // margin="none"
+        size={size}
       >
-        {projects?.map((p: Project) => {
-          return (
-            <MenuItem key={p.$id} value={p.name}>
-              {p.name}
-            </MenuItem>
-          );
-        })}
+        {projects &&
+          projects?.map((p: Project) => {
+            return (
+              <MenuItem key={p.$id} value={p.name}>
+                {p.name}
+              </MenuItem>
+            );
+          })}
       </Select>
     </Box>
   );

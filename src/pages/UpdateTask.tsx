@@ -26,16 +26,6 @@ const UpdateTask = () => {
     due_date: null,
   });
 
-  //   const [{ data }] = useGetProjects();
-
-  //   const [selectedProject, setSelectedProject] = useState("");
-  //   const { user } = useContext(UserContext) ?? {};
-
-  //   const handleProjectChange = (event: SelectChangeEvent) => {
-  //     setSelectedProject(event.target.value as string);
-  //     console.log(event.target.value);
-  //   };
-
   const { taskId } = useParams();
   const navigate = useNavigate();
 

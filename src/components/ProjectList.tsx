@@ -17,6 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import EditProjectPopover from "./EditProjectPopover";
 import ProjectListItem from "./ProjectListItem";
+import React from "react";
 
 type PropType = {
   handleProjectItemClick: (p: string) => void;
@@ -96,4 +97,4 @@ const ProjectList = ({
   );
 };
 
-export default ProjectList;
+export default React.memo(ProjectList);

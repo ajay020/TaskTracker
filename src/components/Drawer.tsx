@@ -18,6 +18,7 @@ import TaskList from "./TaskList";
 import { TaskType } from "../types/task";
 import ProjectList from "./ProjectList";
 import { filterTasks } from "../utils/filterTasks";
+import React from "react";
 
 const drawerWidth = 240;
 
@@ -93,19 +94,19 @@ export default function DrawerLeft({ tasks }: PropType) {
 
   console.log("Drawerleft render");
 
-  const handleProjectItemClick = (project: string) => {
+  const handleProjectItemClick = React.useCallback((project: string) => {
     // setSelectedProject(project);
     navigate(`?project=${project}`);
-  };
+  }, []);
 
-  const handleListItemClick = (filter: string) => {
+  const handleListItemClick = React.useCallback((filter: string) => {
     if (filter === "inbox") {
       navigate("");
       setFilterOn("");
     } else {
       setFilterOn(filter);
     }
-  };
+  }, []);
 
   // Filter the tasks based on the URL search parameters
   const queryParams = new URLSearchParams(location.search);

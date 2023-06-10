@@ -27,6 +27,7 @@ type PropType = {
 };
 
 const Task = ({ task }: PropType) => {
+  console.log("Task render...");
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -34,9 +35,12 @@ const Task = ({ task }: PropType) => {
 
   const queryClient = useQueryClient();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    },
+    []
+  );
 
   const updateTask = async (checked: boolean) => {
     const data = await api.updateDocument(
@@ -79,33 +83,37 @@ const Task = ({ task }: PropType) => {
     },
   });
 
-  const handleCompleteChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setCompleted(e.target.checked);
-    mutate(e.target.checked);
-  };
+  const handleCompleteChange = React.useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      setCompleted(e.target.checked);
+      mutate(e.target.checked);
+    },
+    []
+  );
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  const handleDelete = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    task: TaskType
-  ) => {
-    try {
-      const res = await api.deleteDocument(
-        Server.databaseID,
-        Server.taskCollectionID,
-        task["$id"]
-      );
+  const handleDelete = React.useCallback(
+    async (
+      e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      task: TaskType
+    ) => {
+      try {
+        const res = await api.deleteDocument(
+          Server.databaseID,
+          Server.taskCollectionID,
+          task["$id"]
+        );
 
-      console.log({ res });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        console.log({ res });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    []
+  );
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -114,12 +122,12 @@ const Task = ({ task }: PropType) => {
     <Card sx={{ mt: 4, mx: "auto" }}>
       {isError && <p>Something went wrong.</p>}
       <CardHeader
-        sx={{ background: "teal", p: 0.5 }}
+        sx={{ background: "", p: 0.5 }}
         avatar={
           <Checkbox
             checked={completed}
             onChange={handleCompleteChange}
-            sx={{ p: 1, background: "red", m: 0 }}
+            sx={{ p: 1, background: "", m: 0 }}
           />
         }
         action={
@@ -162,7 +170,7 @@ const Task = ({ task }: PropType) => {
           </Stack>
         }
         title={
-          <Typography sx={{ p: 1, m: 0, background: "gray" }}>
+          <Typography sx={{ p: 1, m: 0, background: "" }}>
             {task.title}
           </Typography>
         }
@@ -180,4 +188,5 @@ const Task = ({ task }: PropType) => {
   );
 };
 
+// export default React.memo(Task);
 export default Task;

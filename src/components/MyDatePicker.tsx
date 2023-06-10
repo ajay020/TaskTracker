@@ -7,11 +7,15 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 type PropType = {
   selectedDueDate: Dayjs | null;
   handleDueDateChange: (d: Dayjs | null) => void;
+  variant?: "outlined" | "filled" | "standard" | undefined;
+  size?: "small" | "medium" | undefined;
 };
 
-export default function ResponsiveDatePickers({
+export default function MyDatePicker({
   selectedDueDate,
   handleDueDateChange,
+  variant = "outlined",
+  size = "medium",
 }: PropType) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -23,6 +27,7 @@ export default function ResponsiveDatePickers({
             value={selectedDueDate}
             onChange={(newVal) => handleDueDateChange(newVal)}
             defaultValue={dayjs(new Date())}
+            disablePast
           />
         </DemoItem>
       </DemoContainer>

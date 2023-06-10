@@ -1,26 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+
 import Paper from "@mui/material/Paper";
 import SubTaskForm from "./SubTaskForm";
-import { SubTaskType } from "../types/task";
-import { Updater, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Priority, SubTaskType, TaskType } from "../types/task";
+import {
+  Updater,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import api from "../api/api";
 import { Server } from "../utils/config";
 import Typography from "@mui/material/Typography";
 import SubTaskItem from "./SubTaskItem";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import BasicSelect from "./Select";
+import { useGetProjects } from "../hooks/useGetProjects";
+import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
+import PrioritySelect from "./PrioritySelect";
+import MyDatePicker from "./MyDatePicker";
+import dayjs, { Dayjs } from "dayjs";
+import UserProvider, { UserContext } from "./UserProvider";
+
+const queryKey = "subtasks";
 
 type PropType = {
-  taskId: string;
+  task: TaskType;
+  updateProgress?: (v: number) => void;
+  subtasks?: SubTaskType[];
 };
-
-interface QueryDataType {
-  documents: SubTaskType[];
-  total: number;
-}
 
 const saveSubtask = async (data: Partial<SubTaskType>) => {
   return await api.createDocument(
@@ -31,25 +44,112 @@ const saveSubtask = async (data: Partial<SubTaskType>) => {
   );
 };
 
-const SubTask = ({ taskId }: PropType) => {
+const updateProject = async (data: { $id: string; name: string }) => {
+  return await api.updateDocument(
+    Server.databaseID,
+    Server.taskCollectionID,
+    data.$id,
+    { project: data.name }
+  );
+};
+
+const updatePriority = async (data: { $id: string; priority: Priority }) => {
+  return await api.updateDocument(
+    Server.databaseID,
+    Server.taskCollectionID,
+    data.$id,
+    { priority: data.priority }
+  );
+};
+
+const updateDueDate = async (data: { $id: string; due_date: Dayjs | null }) => {
+  return await api.updateDocument(
+    Server.databaseID,
+    Server.taskCollectionID,
+    data.$id,
+    { due_date: data.due_date?.toDate() }
+  );
+};
+
+const SubTask = ({ task, subtasks }: PropType) => {
+  console.log("SubTask render...");
+
   const [isFormVisible, setIsFormVisible] = React.useState(false);
+  const [selectedProject, setSelectedProject] = React.useState<string>(
+    task.project || ""
+  );
+  const [priority, setPriority] = React.useState<Priority>(
+    task.priority || Priority.Low
+  );
+  const [selectedDueDate, setSelectedDueDate] = React.useState<Dayjs | null>(
+    dayjs(task.due_date) || null
+  );
+
+  const { user } = useContext(UserContext) ?? {};
 
   const queryClient = useQueryClient();
+  const [{ data }] = useGetProjects();
 
-  // Access the tasks query from cache
-  const { documents } = queryClient.getQueryData(["subtasks"]) as QueryDataType;
-
-  //   Filter subtasks based on the task ID
-  const subtasks = documents
-    ? documents.filter((task) => task.taskId === taskId)
-    : [];
+  // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   const { mutate } = useMutation({
-    mutationKey: ["subtasks"],
+    mutationKey: [queryKey],
     mutationFn: saveSubtask,
     onSuccess: (data) => {
-      queryClient.setQueryData(["subtasks"], (prev: any) => {
-        return { documents: [...prev.documents, data], total: prev.total + 1 };
+      console.log("success", data);
+      queryClient.setQueryData([queryKey], (prev: any) => {
+        return {
+          documents: [...prev.documents, { ...data }],
+          total: prev.total + 1,
+        };
+      });
+    },
+  });
+
+  const projectMutation = useMutation({
+    mutationKey: ["tasks"],
+    mutationFn: updateProject,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["tasks"], (prev: any) => {
+        const updatedList = prev.documents.map((t: TaskType) => {
+          if (t.$id === task.$id) {
+            return { ...task, project: data.project };
+          }
+          return t;
+        });
+        return { documents: [...updatedList], total: prev.total };
+      });
+    },
+  });
+
+  const priorityMutation = useMutation({
+    mutationKey: ["tasks"],
+    mutationFn: updatePriority,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["tasks"], (prev: any) => {
+        const updatedList = prev.documents.map((t: TaskType) => {
+          if (t.$id === task.$id) {
+            return { ...task, priority: data.priority };
+          }
+          return t;
+        });
+        return { documents: [...updatedList], total: prev.total };
+      });
+    },
+  });
+
+  const dueDateMutation = useMutation({
+    mutationKey: ["tasks"],
+    mutationFn: updateDueDate,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["tasks"], (prev: any) => {
+        const updatedList = prev.documents.map((t: TaskType) => {
+          if (t.$id === task.$id) {
+            return { ...task, due_date: data.due_date };
+          }
+          return t;
+        });
+        return { documents: [...updatedList], total: prev.total };
       });
     },
   });
@@ -60,37 +160,92 @@ const SubTask = ({ taskId }: PropType) => {
 
   const handleSaveSubtask = (title: string) => {
     setIsFormVisible(false);
-    mutate({ title, completed: false, taskId: taskId });
+    if (user && title) {
+      mutate({ title, completed: false, taskId: task.$id, userId: user?.$id });
+    }
   };
 
   const handleCancelSubtask = () => {
     setIsFormVisible(false);
   };
 
+  const handleProjectChange = (event: SelectChangeEvent) => {
+    setSelectedProject(event.target.value as string);
+    projectMutation.mutate({ $id: task.$id, name: event.target.value });
+  };
+
+  const handlePriorityChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value as Priority);
+    priorityMutation.mutate({
+      $id: task.$id,
+      priority: event.target.value as Priority,
+    });
+  };
+
+  const handleDueDateChange = (newDate: Dayjs | null) => {
+    setSelectedDueDate(newDate);
+    dueDateMutation.mutate({ $id: task.$id, due_date: newDate });
+  };
+
   return (
-    <div>
-      {subtasks.map((subtask, index) => (
-        <Box key={index}>
-          <SubTaskItem subtask={subtask} />
-        </Box>
-      ))}
-      {isFormVisible ? (
-        <SubTaskForm
-          onSave={handleSaveSubtask}
-          onCancel={handleCancelSubtask}
-        />
-      ) : (
-        <Button
-          variant="contained"
-          onClick={handleAddSubtask}
-          size="small"
-          startIcon={<AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />}
-        >
-          Add
-        </Button>
-      )}
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        background: "",
+        alignContent: "space-between",
+      }}
+    >
+      <Box sx={{ background: "", flex: 2, p: 2 }}>
+        {subtasks?.map((subtask, index) => (
+          <Box key={index}>
+            <SubTaskItem subtask={subtask} />
+          </Box>
+        ))}
+        {isFormVisible ? (
+          <SubTaskForm
+            onSave={handleSaveSubtask}
+            onCancel={handleCancelSubtask}
+          />
+        ) : (
+          <Button
+            variant="contained"
+            onClick={handleAddSubtask}
+            size="small"
+            startIcon={<AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />}
+          >
+            Add
+          </Button>
+        )}
+      </Box>
+      {/* Task info  */}
+      <Box sx={{ background: "", flex: 1, p: 0 }}>
+        <Stack sx={{ background: "", mx: "auto", width: "70%" }} spacing={1}>
+          <BasicSelect
+            selectedProject={selectedProject}
+            handleProjectChange={handleProjectChange}
+            projects={data?.documents}
+            size="small"
+            variant="standard"
+          />
+
+          <PrioritySelect
+            priority={priority}
+            handlePriorityChange={handlePriorityChange}
+            size="small"
+            variant="standard"
+          />
+          <MyDatePicker
+            handleDueDateChange={handleDueDateChange}
+            selectedDueDate={selectedDueDate}
+            size="small"
+            variant="standard"
+          />
+        </Stack>
+      </Box>
+      {/* Task info  */}
+    </Box>
   );
 };
 
+// export default React.memo(SubTask);
 export default SubTask;

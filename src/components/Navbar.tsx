@@ -41,36 +41,42 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
 
   console.log("Navbar render");
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = React.useCallback(() => {
     setOpenDialog(true);
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = React.useCallback(() => {
     setOpenDialog(false);
-  };
+  }, []);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const handleOpenNavMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorElNav(event.currentTarget);
+    },
+    []
+  );
+  const handleOpenUserMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      setAnchorElUser(event.currentTarget);
+    },
+    []
+  );
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = React.useCallback(() => {
     setAnchorElNav(null);
-  };
+  }, []);
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = React.useCallback(() => {
     setAnchorElUser(null);
-  };
+  }, []);
 
-  const deleteUserSession = async () => {
+  const deleteUserSession = React.useCallback(async () => {
     try {
       await api.deleteCurrentSession();
     } catch (e) {
       console.error(e);
     }
-  };
+  }, []);
 
   const queryClient = useQueryClient();
 
@@ -88,13 +94,13 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
     },
   });
 
-  const handleLogut = async () => {
+  const handleLogut = React.useCallback(async () => {
     // close user menu
     setAnchorElUser(null);
     if (user) {
       mutate();
     }
-  };
+  }, []);
 
   return (
     <>
@@ -259,4 +265,4 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
     </>
   );
 }
-export default Navbar;
+export default React.memo(Navbar);

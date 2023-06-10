@@ -3,11 +3,9 @@ import DrawerLeft from "../components/Drawer";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { UserContext } from "../components/UserProvider";
-import { getUserTasks } from "../utils/getUserTasks";
+import { getUserTasks } from "../utils/service";
 import { TaskType } from "../types/task";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import api from "../api/api";
-import { Server } from "../utils/config";
 
 const filterTasksByCompleted = (tasks: TaskType[], completed: boolean) => {
   if (tasks) {
@@ -21,10 +19,6 @@ const filterTasksByCompleted = (tasks: TaskType[], completed: boolean) => {
   return [];
 };
 
-const fetchSubTasks = async () => {
-  return await api.listDocuments(Server.databaseID, Server.subTaskCollectionID);
-};
-
 const Home = () => {
   console.log("Home render");
 
@@ -34,9 +28,6 @@ const Home = () => {
   const { data, isLoading, isError } = useQuery(["tasks"], () =>
     getUserTasks(user?.$id)
   );
-
-  // Fetch all subtasks
-  const query = useQuery(["subtasks"], fetchSubTasks);
 
   const incompleteTasks = filterTasksByCompleted(data?.documents, false);
 

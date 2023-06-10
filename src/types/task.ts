@@ -32,6 +32,7 @@ export interface SubTaskType {
   completed: boolean;
   taskId: string;
   title: string;
+  userId: string;
 }
 
 export const SET_LOADING = "SET_LOADING";

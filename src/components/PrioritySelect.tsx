@@ -7,11 +7,15 @@ import { Priority } from "../types/task";
 type PropType = {
   priority: Priority;
   handlePriorityChange: (e: SelectChangeEvent) => void;
+  variant?: "outlined" | "filled" | "standard" | undefined;
+  size?: "small" | "medium" | undefined;
 };
 
 export default function PrioritySelect({
   handlePriorityChange,
   priority,
+  variant = "outlined",
+  size = "medium",
 }: PropType) {
   return (
     <Box margin="normal" sx={{ my: 2 }}>
@@ -23,6 +27,9 @@ export default function PrioritySelect({
         label="priority"
         fullWidth
         onChange={handlePriorityChange}
+        defaultValue={Priority.Low}
+        variant={variant}
+        size={size}
       >
         <MenuItem value="" disabled>
           Select Priority
