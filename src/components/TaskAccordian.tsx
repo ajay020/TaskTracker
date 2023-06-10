@@ -32,7 +32,6 @@ const TaskAccordian = ({ task }: PropType) => {
 
   const queryClient = useQueryClient();
 
-  // Calculate percentage of completion of subtasks******************
   const { documents } =
     (queryClient.getQueryData(["subtasks"]) as QueryDataType) ?? {};
 
@@ -43,10 +42,9 @@ const TaskAccordian = ({ task }: PropType) => {
 
   const completedSubtasks = filteredSubtasks.filter((t) => t.completed);
 
+  // Calculate percentage of completion of subtasks
   const calculatedPercentage =
     (completedSubtasks.length / filteredSubtasks.length) * 100 || 0;
-
-  console.log({ documents, TASKiD: task.$id, filteredSubtasks });
 
   const handleChange = React.useCallback(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -67,7 +65,7 @@ const TaskAccordian = ({ task }: PropType) => {
       ? "error"
       : task.priority === Priority.Medium
       ? "warning"
-      : "primary";
+      : "secondary";
 
   return (
     <div>

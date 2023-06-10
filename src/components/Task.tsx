@@ -119,8 +119,10 @@ const Task = ({ task }: PropType) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <Card sx={{ mt: 4, mx: "auto" }}>
-      {isError && <p>Something went wrong.</p>}
+    <Card sx={{ mt: 0, mx: "auto" }}>
+      <Typography textAlign={"center"}>
+        {isError && <p>Something went wrong.</p>}
+      </Typography>
       <CardHeader
         sx={{ background: "", p: 0.5 }}
         avatar={
@@ -175,11 +177,11 @@ const Task = ({ task }: PropType) => {
           </Typography>
         }
       />
-      {/* <CardContent sx={{ background: "green" }}>
+      <CardContent sx={{ background: "" }}>
         <Typography variant="body2" color="text.secondary">
           {task.description.substring(0, 50)}
         </Typography>
-      </CardContent> */}
+      </CardContent>
       {/* <CardActions> */}
 
       <TaskAccordian task={task} />

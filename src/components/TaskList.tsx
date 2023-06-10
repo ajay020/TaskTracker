@@ -1,20 +1,14 @@
 import { TaskType } from "../types/task";
 import Task from "./Task";
-import TaskAccordian from "./TaskAccordian";
 import Box from "@mui/material/Box";
-import api from "../api/api";
-import { Server } from "../utils/config";
 import { useQuery } from "@tanstack/react-query";
 import React, { SetStateAction, useContext } from "react";
 import { getUserSubTasks } from "../utils/service";
 import { UserContext } from "./UserProvider";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 type PropType = {
   tasks: TaskType[] | [];
-};
-
-const fetchSubTasks = async () => {
-  return await api.listDocuments(Server.databaseID, Server.subTaskCollectionID);
 };
 
 type ContextType = {
@@ -38,11 +32,11 @@ const TaskList = ({ tasks }: PropType) => {
   // Fetch all subtasks
   const result = useQuery(["subtasks"], () => getUserSubTasks(user?.$id));
 
-  console.log({ SUBTASK: result.data });
-
   return (
     <div>
-      <h4>{result.isLoading && "Loading..."}</h4>
+      {/* <Box sx={{ display: "flex", justifyContent: "center" }}>
+        {result.isLoading && <CircularProgress />}
+      </Box> */}
       {result.data &&
         tasks?.map((task) => {
           return (

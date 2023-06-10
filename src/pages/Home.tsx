@@ -1,4 +1,6 @@
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+
 import DrawerLeft from "../components/Drawer";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
@@ -33,18 +35,21 @@ const Home = () => {
 
   if (isLoading) {
     return (
-      <h2>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
         <CircularProgress value={67} />
-      </h2>
+      </Box>
     );
   }
 
   if (isError) {
-    return <h2>Something went wrong...</h2>;
+    return (
+      <Typography textAlign={"center"} sx={{ mt: 4 }}>
+        Something went wrong...
+      </Typography>
+    );
   }
   return (
     <Box>
-      {isLoading && <CircularProgress value={67} />}
       <DrawerLeft tasks={incompleteTasks} />
     </Box>
   );
