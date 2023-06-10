@@ -26,6 +26,14 @@ type PropType = {
   task: TaskType;
 };
 
+const deleteTask = async (taskId: string) => {
+  return await api.deleteDocument(
+    Server.databaseID,
+    Server.taskCollectionID,
+    taskId
+  );
+};
+
 const Task = ({ task }: PropType) => {
   console.log("Task render...");
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
@@ -83,6 +91,33 @@ const Task = ({ task }: PropType) => {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationKey: ["tasks"],
+    mutationFn: deleteTask,
+    onSuccess: (data) => {
+      const tasks = queryClient.getQueryData<{
+        documents: TaskType[];
+        total: number;
+      }>(["tasks"]);
+
+      if (tasks && Array.isArray(tasks.documents)) {
+        // Find the completed task and remove it from the list
+        const updatedTasks = tasks.documents.filter((t) => t.$id !== task.$id);
+        // Update the query data with the updated tasks list
+        queryClient.setQueryData<{ documents: TaskType[]; total: number }>(
+          ["tasks"],
+          {
+            documents: updatedTasks,
+            total: tasks.total,
+          }
+        );
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const handleCompleteChange = React.useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       setCompleted(e.target.checked);
@@ -100,17 +135,7 @@ const Task = ({ task }: PropType) => {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
       task: TaskType
     ) => {
-      try {
-        const res = await api.deleteDocument(
-          Server.databaseID,
-          Server.taskCollectionID,
-          task["$id"]
-        );
-
-        console.log({ res });
-      } catch (error) {
-        console.error(error);
-      }
+      deleteMutation.mutate(task.$id);
     },
     []
   );
@@ -119,7 +144,7 @@ const Task = ({ task }: PropType) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <Card sx={{ mt: 0, mx: "auto" }}>
+    <Card sx={{ mb: 2, mx: "auto" }}>
       <Typography textAlign={"center"}>
         {isError && <p>Something went wrong.</p>}
       </Typography>

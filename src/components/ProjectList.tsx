@@ -18,6 +18,9 @@ import Box from "@mui/material/Box";
 import EditProjectPopover from "./EditProjectPopover";
 import ProjectListItem from "./ProjectListItem";
 import React from "react";
+import NextWeekIcon from "@mui/icons-material/NextWeek";
+import WbTwilightIcon from "@mui/icons-material/WbTwilight";
+import Brightness1Icon from "@mui/icons-material/Brightness1";
 
 type PropType = {
   handleProjectItemClick: (p: string) => void;
