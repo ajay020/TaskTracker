@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LandingPage from "./pages/LandingPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import AccountSettings from "./components/AccountSettings";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -37,6 +38,16 @@ function App() {
               />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/login" element={<LoginForm />} />
+              <Route
+                path="/account-settings"
+                element={
+                  //@ts-ignore
+                  <ProtectedRoute>
+                    <AccountSettings />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route
                 path="/update-task/:taskId"
                 element={

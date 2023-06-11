@@ -50,6 +50,10 @@ const LoginForm = () => {
 
   const { login } = useContext(UserContext) ?? {};
 
+  if (localStorage.getItem("user")) {
+    navigate("/app");
+  }
+
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -78,7 +82,7 @@ const LoginForm = () => {
       }
 
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      //   queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
   });
 
@@ -86,8 +90,10 @@ const LoginForm = () => {
     event.preventDefault();
 
     try {
-      await api.createSession(email, password);
-      mutate();
+      if (email && password) {
+        await api.createSession(email, password);
+        mutate();
+      }
     } catch (error) {
       console.log(error);
     }

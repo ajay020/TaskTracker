@@ -9,6 +9,8 @@ import { getUserTasks } from "../utils/service";
 import { TaskType } from "../types/task";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import "../utils/userService";
+
 const filterTasksByCompleted = (tasks: TaskType[], completed: boolean) => {
   if (tasks) {
     return tasks.filter((task) => {

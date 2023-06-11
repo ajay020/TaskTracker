@@ -1,10 +1,11 @@
 // @ts-ignore
-import { Client, Account, Database, ID } from "appwrite";
+import { Client, Account, Database, Storage, ID } from "appwrite";
 
 const client = new Client();
 
 const account = new Account(client);
 // const databse = new Database(client);
+// const storage = new Storage(client);
 
 client
   .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint

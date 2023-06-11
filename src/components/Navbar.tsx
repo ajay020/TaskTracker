@@ -23,8 +23,15 @@ import api from "../api/api";
 import Logout from "@mui/icons-material/Logout";
 import AddTaskDialog from "./AddTaskDialog";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  Query,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Divider } from "@mui/material";
+import { Server } from "../utils/config";
+import { getUserProfile } from "../utils/service";
 
 type PropType = {
   handleDrawerOpen: () => void;
@@ -40,6 +47,11 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
   const navigate = useNavigate();
 
   console.log("Navbar render");
+
+  const { data: profileData } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getUserProfile(user?.$id),
+  });
 
   const handleOpenDialog = React.useCallback(() => {
     setOpenDialog(true);
@@ -215,9 +227,16 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
                   onClick={handleOpenUserMenu}
                   sx={{ p: 0, color: "white" }}
                 >
-                  <Avatar sx={{ bgcolor: deepPurple[100] }}>
-                    {user?.name[0].toLocaleUpperCase()}
-                  </Avatar>
+                  {profileData ? (
+                    <Avatar
+                      alt="Travis Howard"
+                      src={profileData?.documents[0]?.imgUrl}
+                    />
+                  ) : (
+                    <Avatar sx={{ bgcolor: deepPurple[100] }}>
+                      {user?.name[0].toLocaleUpperCase()}
+                    </Avatar>
+                  )}
                 </IconButton>
               </Tooltip>
               <Menu
@@ -246,6 +265,20 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
                   </Stack>
                 </MenuItem>
                 <Divider />
+
+                <MenuItem>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  <Typography
+                    color={"inherit"}
+                    sx={{ textDecoration: "none" }}
+                    component="a"
+                    href="/account-settings"
+                  >
+                    Account settings
+                  </Typography>
+                </MenuItem>
 
                 <MenuItem onClick={handleLogut}>
                   <ListItemIcon>

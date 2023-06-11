@@ -144,7 +144,7 @@ const Task = ({ task }: PropType) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <Card sx={{ mb: 2, mx: "auto" }}>
+    <Card sx={{ mb: 2, mx: "auto", width: "70%" }}>
       <Typography textAlign={"center"}>
         {isError && <p>Something went wrong.</p>}
       </Typography>

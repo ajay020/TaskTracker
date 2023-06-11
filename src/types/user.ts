@@ -27,3 +27,17 @@ export type UserAction =
   | { type: "SET_LOADING" }
   | { type: "SET_ERROR" }
   | { type: "SET_USER"; payload: User | null };
+
+export type FileType = {
+  $createdAt: string;
+  $id: string;
+  $permissions: string[];
+  $updatedAt: string;
+  bucketId: string;
+  chunksTotal: number;
+  chunksUploaded: number;
+  mimeType: string;
+  name: string;
+  signature: string;
+  sizeOriginal: number;
+};
