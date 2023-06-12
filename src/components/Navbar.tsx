@@ -32,6 +32,7 @@ import { Divider } from "@mui/material";
 import { Server } from "../utils/config";
 import { getUserProfile } from "../utils/service";
 import AddTaskDialog from "./task/AddTaskDialog";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 type PropType = {
   handleDrawerOpen: () => void;
@@ -133,13 +134,13 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              href="/app"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".3rem",
+                // letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -210,11 +211,16 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
             {/* <IconButton> */}
             <Button
               onClick={handleOpenDialog}
-              sx={{ color: "white", flexGrow: 0, ml: "auto", mr: 4 }}
-              color="success"
+              sx={{
+                color: "black",
+                background: "white",
+                flexGrow: 0,
+                ml: "auto",
+                mr: 4,
+              }}
               variant="contained"
               startIcon={
-                <AddCircleOutlineOutlinedIcon sx={{ color: "white" }} />
+                <AddCircleOutlineOutlinedIcon sx={{ color: "black" }} />
               }
             >
               Add
@@ -268,7 +274,7 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
 
                 <MenuItem>
                   <ListItemIcon>
-                    <Logout fontSize="small" />
+                    <ManageAccountsIcon fontSize="small" />
                   </ListItemIcon>
                   <Typography
                     color={"inherit"}

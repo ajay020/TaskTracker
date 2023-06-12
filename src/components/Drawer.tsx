@@ -113,6 +113,7 @@ export default function DrawerLeft({ tasks }: PropType) {
   // Filter the tasks based on the URL search parameters
   const queryParams = new URLSearchParams(location.search);
   const param = queryParams.get("project");
+  console.log({ param });
   if (param && filterOn) {
     const filteredBytime = filterTasks(tasks, filterOn);
 
@@ -176,9 +177,12 @@ export default function DrawerLeft({ tasks }: PropType) {
       </Drawer>
       <Main open={open} sx={{ background: "" }}>
         <DrawerHeader />
-        <Typography component={"h4"} variant="h4">
-          {selectedProject}
-        </Typography>
+        {param && (
+          <Typography component={"h4"} variant="h4">
+            {selectedProject}
+          </Typography>
+        )}
+
         <TaskList tasks={filteredTasks} />
       </Main>
     </Box>

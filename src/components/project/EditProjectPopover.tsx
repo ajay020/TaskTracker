@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditProjectDialog from "./EditProjectDialog";
 import api from "../../api/api";
 import { Server } from "../../utils/config";
+import { useNavigate } from "react-router-dom";
 
 interface PropType {
   anchorEl: HTMLButtonElement | null;
@@ -30,6 +31,8 @@ const deleteProject = async (projectId: string) => {
 const EditProjectPopover = (prop: PropType) => {
   const { anchorEl, handleClose, project } = prop;
   const [openDialog, setopenDialog] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const handleOpenDialog = () => {
     setopenDialog(true);
@@ -59,6 +62,8 @@ const EditProjectPopover = (prop: PropType) => {
           total: updatedlist.length,
         };
       });
+
+      navigate("/app");
     },
   });
 
