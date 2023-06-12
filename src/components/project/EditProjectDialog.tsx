@@ -6,9 +6,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import api from "../api/api";
-import { Server } from "../utils/config";
+import { useMutation } from "@tanstack/react-query";
+import { Server } from "../../utils/config";
+import api from "../../api/api";
 
 interface PropType {
   openDialog: boolean;

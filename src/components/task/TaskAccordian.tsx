@@ -2,19 +2,17 @@ import * as React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Priority, SubTaskType, TaskType } from "../types/task";
+import { Priority, SubTaskType, TaskType } from "../../types/task";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import AlarmIcon from "@mui/icons-material/Alarm";
-import { formatDate } from "../utils/formatDate";
 import FlagIcon from "@mui/icons-material/Flag";
 import SubTask from "./SubTask";
-import Progress from "./LinearProgress";
 import Stack from "@mui/material/Stack";
 import { useQueryClient } from "@tanstack/react-query";
-import { Divider } from "@mui/material";
+import { formatDate } from "../../utils/formatDate";
+import Progress from "../LinearProgress";
 
 type PropType = {
   task: TaskType;

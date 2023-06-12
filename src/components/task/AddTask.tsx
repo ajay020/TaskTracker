@@ -1,19 +1,19 @@
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { SelectChangeEvent } from "@mui/material/Select";
-import api from "../api/api";
-import { Server } from "../utils/config";
+import api from "../../api/api";
+import { Server } from "../../utils/config";
 
 import React, { useContext, useState } from "react";
 
 //@ts-ignore
 import { Permission, Role } from "appwrite";
-import { UserContext } from "./UserProvider";
-import MyDatePicker from "./MyDatePicker";
+import { UserContext } from "../UserProvider";
+import MyDatePicker from "../MyDatePicker";
 import Box from "@mui/material/Box";
 import { Dayjs } from "dayjs";
-import { Priority, TaskType } from "../types/task";
-import PrioritySelect from "./PrioritySelect";
+import { Priority, TaskType } from "../../types/task";
+import PrioritySelect from "../PrioritySelect";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify";

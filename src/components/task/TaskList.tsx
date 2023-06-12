@@ -1,11 +1,11 @@
-import { TaskType } from "../types/task";
 import Task from "./Task";
 import Box from "@mui/material/Box";
 import { useQuery } from "@tanstack/react-query";
 import React, { SetStateAction, useContext } from "react";
-import { getUserSubTasks } from "../utils/service";
-import { UserContext } from "./UserProvider";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { TaskType } from "../../types/task";
+import { UserContext } from "../UserProvider";
+import { getUserSubTasks } from "../../utils/service";
 
 type PropType = {
   tasks: TaskType[] | [];

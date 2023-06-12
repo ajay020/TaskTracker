@@ -1,23 +1,15 @@
 import React from "react";
 import Checkbox from "@mui/material/Checkbox";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { SubTaskType } from "../types/task";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../api/api";
-import { Server } from "../utils/config";
+import { SubTaskType } from "../../types/task";
 import { ChangeSubtaskContext } from "./TaskList";
+import { Server } from "../../utils/config";
+import api from "../../api/api";
 
 type PropType = {
   subtask: SubTaskType;
-};
-
-type QueryType = {
-  documents: SubTaskType[];
-  total: number;
 };
 
 const updateSubTask = async (subtask: SubTaskType) => {
@@ -79,23 +71,6 @@ const SubTaskItem = ({ subtask }: PropType) => {
     // Always refetch after error or success:
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["subtasks"] });
-    },
-
-    onSuccess: (data) => {
-      //   queryClient.refetchQueries(["subtasks"]);
-      //   queryClient.setQueryData(["subtasks"], (prev: any) => {
-      //     console.log("subtask updated successfully", data);
-      //     const updatedList = prev?.documents?.filter((stask: SubTaskType) => {
-      //       if (stask.$id === data.$id) {
-      //         return { ...data };
-      //       }
-      //       return stask;
-      //     });
-      //     return {
-      //       documents: [...updatedList],
-      //       total: prev?.total,
-      //     };
-      //   });
     },
   });
 

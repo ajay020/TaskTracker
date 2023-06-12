@@ -21,7 +21,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserProvider";
 import api from "../api/api";
 import Logout from "@mui/icons-material/Logout";
-import AddTaskDialog from "./AddTaskDialog";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import {
   Query,
@@ -32,6 +31,7 @@ import {
 import { Divider } from "@mui/material";
 import { Server } from "../utils/config";
 import { getUserProfile } from "../utils/service";
+import AddTaskDialog from "./task/AddTaskDialog";
 
 type PropType = {
   handleDrawerOpen: () => void;

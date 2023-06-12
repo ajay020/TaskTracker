@@ -1,18 +1,12 @@
-import React from "react";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import api from "../api/api";
-import { Server } from "../utils/config";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Typography } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
 import AddTask from "./AddTask";
-import { TaskType } from "../types/task";
+import { TaskType } from "../../types/task";
 
 type PropType = {
   openDialog: boolean;
@@ -21,7 +15,6 @@ type PropType = {
 
 const AddTaskDialog = (props: PropType) => {
   const [task, setTask] = useState<null | Partial<TaskType>>(null);
-  //   const query = useAddTask(task);
 
   const { openDialog, handleCloseDialog } = props;
 

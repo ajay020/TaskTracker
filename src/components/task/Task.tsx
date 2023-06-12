@@ -4,9 +4,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Priority, TaskType } from "../types/task";
-import api from "../api/api";
-import { Server } from "../utils/config";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Popover from "@mui/material/Popover";
@@ -22,6 +19,9 @@ import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TaskAccordian from "./TaskAccordian";
 import { toast } from "react-toastify";
+import api from "../../api/api";
+import { Server } from "../../utils/config";
+import { TaskType } from "../../types/task";
 
 type PropType = {
   task: TaskType;

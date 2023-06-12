@@ -14,9 +14,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 import { useState } from "react";
-import TaskList from "./TaskList";
+import TaskList from "./task/TaskList";
 import { TaskType } from "../types/task";
-import ProjectList from "./ProjectList";
+import ProjectList from "./project/ProjectList";
 import { filterTasks } from "../utils/filterTasks";
 import React from "react";
 

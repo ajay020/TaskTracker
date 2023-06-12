@@ -5,11 +5,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { AddCircleSharp } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import AddProjectDialog from "./AddProjectDialog";
-import { useGetProjects } from "../hooks/useGetProjects";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
@@ -21,6 +19,8 @@ import React from "react";
 import NextWeekIcon from "@mui/icons-material/NextWeek";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import Brightness1Icon from "@mui/icons-material/Brightness1";
+
+import { useGetProjects } from "../../hooks/useGetProjects";
 
 type PropType = {
   handleProjectItemClick: (p: string) => void;

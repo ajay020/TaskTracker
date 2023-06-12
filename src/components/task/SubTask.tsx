@@ -1,31 +1,22 @@
 import React, { useContext } from "react";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-import Paper from "@mui/material/Paper";
 import SubTaskForm from "./SubTaskForm";
-import { Priority, SubTaskType, TaskType } from "../types/task";
-import {
-  Updater,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import api from "../api/api";
-import { Server } from "../utils/config";
-import Typography from "@mui/material/Typography";
-import SubTaskItem from "./SubTaskItem";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import BasicSelect from "./Select";
-import { useGetProjects } from "../hooks/useGetProjects";
-import { SelectChangeEvent } from "@mui/material/Select/SelectInput";
-import PrioritySelect from "./PrioritySelect";
-import MyDatePicker from "./MyDatePicker";
+import { Priority, SubTaskType, TaskType } from "../../types/task";
+import { Server } from "../../utils/config";
+import api from "../../api/api";
+import { UserContext } from "../UserProvider";
+import { useGetProjects } from "../../hooks/useGetProjects";
+import { SelectChangeEvent } from "@mui/material/Select";
 import dayjs, { Dayjs } from "dayjs";
-import UserProvider, { UserContext } from "./UserProvider";
+import SubTaskItem from "./SubTaskItem";
+import BasicSelect from "../Select";
+import PrioritySelect from "../PrioritySelect";
+import MyDatePicker from "../MyDatePicker";
 
 const queryKey = "subtasks";
 
@@ -196,8 +187,8 @@ const SubTask = ({ task, subtasks }: PropType) => {
       }}
     >
       <Box sx={{ background: "", flex: 2, p: 2 }}>
-        {subtasks?.map((subtask, index) => (
-          <Box key={index}>
+        {subtasks?.map((subtask) => (
+          <Box key={subtask.$id}>
             <SubTaskItem subtask={subtask} />
           </Box>
         ))}

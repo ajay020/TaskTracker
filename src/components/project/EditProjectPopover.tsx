@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import api from "../api/api";
-import { Server } from "../utils/config";
 
 import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
@@ -12,6 +10,8 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditProjectDialog from "./EditProjectDialog";
+import api from "../../api/api";
+import { Server } from "../../utils/config";
 
 interface PropType {
   anchorEl: HTMLButtonElement | null;
