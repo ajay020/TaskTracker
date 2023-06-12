@@ -21,6 +21,7 @@ import Delete from "@mui/icons-material/Delete";
 import ModeEditOutlinedIcon from "@mui/icons-material/ModeEditOutlined";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TaskAccordian from "./TaskAccordian";
+import { toast } from "react-toastify";
 
 type PropType = {
   task: TaskType;
@@ -60,9 +61,10 @@ const Task = ({ task }: PropType) => {
     return data;
   };
 
-  const { mutate, error, isError } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationFn: updateTask,
     onSuccess: (data) => {
+      toast.success("Task compoleted!");
       const tasks = queryClient.getQueryData<{
         documents: TaskType[];
         total: number;
@@ -95,6 +97,7 @@ const Task = ({ task }: PropType) => {
     mutationKey: ["tasks"],
     mutationFn: deleteTask,
     onSuccess: (data) => {
+      toast.success("Task has been deleted!");
       const tasks = queryClient.getQueryData<{
         documents: TaskType[];
         total: number;

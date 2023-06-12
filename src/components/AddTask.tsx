@@ -16,6 +16,7 @@ import { Priority, TaskType } from "../types/task";
 import PrioritySelect from "./PrioritySelect";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
+import { toast } from "react-toastify";
 
 interface PropType {
   handleCloseDialog: () => void;
@@ -47,6 +48,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
   const { mutate, isError, isLoading } = useMutation({
     mutationFn: createTask,
     onSuccess: (data) => {
+      toast.success("Task added successfully!");
       // Update the tasks list in the cache manually
       queryClient.setQueryData(["tasks"], (oldData: any) => {
         // Add the new tasks to the existing tasks list
