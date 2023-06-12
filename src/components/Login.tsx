@@ -11,6 +11,7 @@ import timeImg from "../assets/time_management.svg";
 import { makeStyles } from "@material-ui/core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "./UserProvider";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,18 +42,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const updateUser = async () => {
+  const user = await api.getAccount();
+  return user;
+};
+
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const navigate = useNavigate();
   const classes = useStyles();
 
   const { login } = useContext(UserContext) ?? {};
 
-  if (localStorage.getItem("user")) {
-    navigate("/app");
-  }
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      navigate("/app");
+    }
+  }, []);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -60,11 +69,6 @@ const LoginForm = () => {
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-  };
-
-  const updateUser = async () => {
-    const user = await api.getAccount();
-    return user;
   };
 
   const queryClient = useQueryClient();
@@ -89,13 +93,23 @@ const LoginForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      if (email && password) {
-        await api.createSession(email, password);
-        mutate();
+    if (password.length < 6) {
+      setError(true);
+    } else {
+      setError(false);
+
+      try {
+        if (email && password) {
+          const res = await api.createSession(email, password);
+          mutate();
+        }
+      } catch (error) {
+        console.log(error);
+
+        toast.error(
+          "Invalid credentials. Please check the email and password."
+        );
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -123,8 +137,13 @@ const LoginForm = () => {
               fullWidth
               margin="normal"
               className={classes.textField}
+              required
+              type="email"
             />
             <TextField
+              error={error}
+              helperText={error ? "Password must be at least 8 characters" : ""}
+              required
               label="Password"
               type="password"
               value={password}

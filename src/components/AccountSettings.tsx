@@ -15,6 +15,7 @@ import { Server } from "../utils/config";
 import { ID } from "appwrite";
 import { FileType } from "../types/user";
 import CircularProgress from "@mui/material/CircularProgress";
+import { toast } from "react-toastify";
 
 const baseUrl = "https://cloud.appwrite.io/v1";
 
@@ -52,9 +53,8 @@ const updateUserInfo = async (userInfo: {
     userInfo.password
   );
 
-  console.log(namePromise, emailPromise);
-
   localStorage.setItem("user", JSON.stringify(emailPromise));
+  toast.success("User info updated successfully");
 };
 
 const AccountSettings: React.FC<AccountSettingsProps> = () => {
@@ -97,6 +97,7 @@ const AccountSettings: React.FC<AccountSettingsProps> = () => {
       if (user) {
         await saveImgToProfile({ userId: user?.$id, imgUrl });
       }
+      toast.success("file uploaded successfully");
     },
   });
 

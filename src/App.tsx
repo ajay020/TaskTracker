@@ -15,6 +15,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AccountSettings from "./components/AccountSettings";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Create a client
 const queryClient = new QueryClient();
 
@@ -60,6 +63,7 @@ function App() {
             </Routes>
           </Layout>
         </UserProvider>
+        <ToastContainer />
       </QueryClientProvider>
     </>
   );
