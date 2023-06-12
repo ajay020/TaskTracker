@@ -64,6 +64,7 @@ const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const classes = useStyles();
   const navigate = useNavigate();
@@ -101,11 +102,16 @@ const RegisterForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      const user = { email, password, name };
-      mutate(user);
-    } catch (error) {
-      console.error("Registration failed", error);
+    if (password.length < 8) {
+      setError(true);
+    } else {
+      setError(false);
+      try {
+        const user = { email, password, name };
+        mutate(user);
+      } catch (error) {
+        console.error("Registration failed", error);
+      }
     }
   };
 
@@ -143,15 +149,21 @@ const RegisterForm = () => {
               margin="normal"
               className={classes.textField}
               fullWidth
+              required
+              type="email"
             />
             <TextField
               label="Password"
               type="password"
               value={password}
+              placeholder="Password must be at least 8 character long"
               onChange={handlePasswordChange}
               margin="normal"
               className={classes.textField}
               fullWidth
+              error={error}
+              required
+              helperText={error ? "Password must be at least 8 characters" : ""}
             />
             <Button
               type="submit"

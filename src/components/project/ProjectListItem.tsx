@@ -9,6 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import EditProjectPopover from "./EditProjectPopover";
+import Brightness1Icon from "@mui/icons-material/Brightness1";
 
 type PropType = {
   project: Project;
@@ -57,7 +58,7 @@ const ProjectListItem = ({ project, handleProjectItemClick }: PropType) => {
       >
         <ListItemButton onClick={() => handleProjectItemClick(project.name)}>
           <ListItemIcon>
-            <InboxIcon />
+            <Brightness1Icon />
           </ListItemIcon>
           <ListItemText primary={project.name} />
         </ListItemButton>

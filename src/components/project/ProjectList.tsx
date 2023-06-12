@@ -8,19 +8,14 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { AddCircleSharp } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 import AddProjectDialog from "./AddProjectDialog";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import MoreHoriz from "@mui/icons-material/MoreHoriz";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import EditProjectPopover from "./EditProjectPopover";
 import ProjectListItem from "./ProjectListItem";
 import React from "react";
 import NextWeekIcon from "@mui/icons-material/NextWeek";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
-import Brightness1Icon from "@mui/icons-material/Brightness1";
 
 import { useGetProjects } from "../../hooks/useGetProjects";
+
+const sidebarIcons = [<InboxIcon />, <WbTwilightIcon />, <NextWeekIcon />];
 
 type PropType = {
   handleProjectItemClick: (p: string) => void;
@@ -51,7 +46,7 @@ const ProjectList = ({
   return (
     <div>
       <List>
-        {["Inbox", "Today", "Upcoming", "Filter tasks"].map((text) => (
+        {["Inbox", "Today", "Upcoming"].map((text, index) => (
           <ListItem
             key={text}
             disablePadding
@@ -63,9 +58,7 @@ const ProjectList = ({
             <ListItemButton
               onClick={() => handleListItemClick(text.toLowerCase())}
             >
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
+              <ListItemIcon>{sidebarIcons[index]}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>

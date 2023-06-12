@@ -13,11 +13,11 @@ import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
-import { deepOrange, deepPurple } from "@mui/material/colors";
+import { deepPurple } from "@mui/material/colors";
 import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserProvider";
 import api from "../api/api";
 import Logout from "@mui/icons-material/Logout";
@@ -62,22 +62,12 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
     setOpenDialog(false);
   }, []);
 
-  const handleOpenNavMenu = React.useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorElNav(event.currentTarget);
-    },
-    []
-  );
   const handleOpenUserMenu = React.useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       setAnchorElUser(event.currentTarget);
     },
     []
   );
-
-  const handleCloseNavMenu = React.useCallback(() => {
-    setAnchorElNav(null);
-  }, []);
 
   const handleCloseUserMenu = React.useCallback(() => {
     setAnchorElUser(null);
@@ -129,7 +119,6 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
             >
               <MenuIcon />
             </IconButton>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -140,7 +129,6 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                // letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -148,44 +136,6 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
               TaskTracker
             </Typography>
 
-            {/* <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: "block", md: "none" },
-                }}
-              >
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Add Task</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">Today's task</Typography>
-                </MenuItem>
-              </Menu>
-            </Box> */}
-            {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
             <Typography
               variant="h5"
               noWrap
@@ -225,7 +175,6 @@ function Navbar({ handleDrawerOpen, open }: PropType) {
             >
               Add
             </Button>
-            {/* </IconButton> */}
 
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

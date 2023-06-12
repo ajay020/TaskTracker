@@ -93,14 +93,14 @@ const LoginForm = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       setError(true);
     } else {
       setError(false);
 
       try {
         if (email && password) {
-          const res = await api.createSession(email, password);
+          await api.createSession(email, password);
           mutate();
         }
       } catch (error) {
