@@ -6,10 +6,21 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { TaskType } from "../../types/task";
 import { UserContext } from "../UserProvider";
 import { getUserSubTasks } from "../../utils/service";
+import addImg from "../../assets/add_task.svg";
+import { makeStyles } from "@material-ui/core";
 
 type PropType = {
   tasks: TaskType[] | [];
 };
+
+const useStyles = makeStyles((theme) => ({
+  image: {
+    width: "30%",
+    maxWidth: 500,
+    margin: "auto ",
+    display: "block",
+  },
+}));
 
 type ContextType = {
   handleSubTaskChange: () => void;
@@ -27,16 +38,21 @@ const TaskList = ({ tasks }: PropType) => {
     setIsSubtaskChange(!isSubtaskChange);
   };
 
+  const classes = useStyles();
+
   const { user } = useContext(UserContext) ?? {};
 
   // Fetch all subtasks
   const result = useQuery(["subtasks"], () => getUserSubTasks(user?.$id));
 
   return (
-    <div>
-      {/* <Box sx={{ display: "flex", justifyContent: "center" }}>
-        {result.isLoading && <CircularProgress />}
-      </Box> */}
+    <Box>
+      {tasks.length === 0 && (
+        <Box sx={{ background: "", mt: 4 }}>
+          <img src={addImg} className={classes.image} alt="add image" />
+        </Box>
+      )}
+
       {result.data &&
         tasks?.map((task) => {
           return (
@@ -47,7 +63,7 @@ const TaskList = ({ tasks }: PropType) => {
             </Box>
           );
         })}
-    </div>
+    </Box>
   );
 };
 

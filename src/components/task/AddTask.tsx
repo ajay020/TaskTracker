@@ -17,6 +17,7 @@ import PrioritySelect from "../PrioritySelect";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 interface PropType {
   handleCloseDialog: () => void;
@@ -27,8 +28,12 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
   const [description, setDescription] = useState("");
   const [selectedDueDate, setSelectedDueDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<Priority>(Priority.Low);
+  const [project, setProject] = useState("");
 
   const queryClient = useQueryClient();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
 
   const { user } = useContext(UserContext) ?? {};
 
@@ -88,6 +93,9 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    const project = queryParams.get("project");
+    // console.log(project);
+
     if (title && user) {
       const task = {
         title,
@@ -96,6 +104,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
         due_date: selectedDueDate,
         priority,
         completed: false,
+        project: project ? project : "",
       };
 
       mutate(task);

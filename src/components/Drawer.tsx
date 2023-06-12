@@ -19,6 +19,7 @@ import { TaskType } from "../types/task";
 import ProjectList from "./project/ProjectList";
 import { filterTasks } from "../utils/filterTasks";
 import React from "react";
+import { Typography } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -95,7 +96,7 @@ export default function DrawerLeft({ tasks }: PropType) {
   console.log("Drawerleft render");
 
   const handleProjectItemClick = React.useCallback((project: string) => {
-    // setSelectedProject(project);
+    setSelectedProject(project);
     navigate(`?project=${project}`);
   }, []);
 
@@ -103,6 +104,7 @@ export default function DrawerLeft({ tasks }: PropType) {
     if (filter === "inbox") {
       navigate("");
       setFilterOn("");
+      setSelectedProject("");
     } else {
       setFilterOn(filter);
     }
@@ -172,8 +174,11 @@ export default function DrawerLeft({ tasks }: PropType) {
         />
         {/* Project category list  */}
       </Drawer>
-      <Main open={open} sx={{ background: "gray" }}>
+      <Main open={open} sx={{ background: "" }}>
         <DrawerHeader />
+        <Typography component={"h4"} variant="h4">
+          {selectedProject}
+        </Typography>
         <TaskList tasks={filteredTasks} />
       </Main>
     </Box>
