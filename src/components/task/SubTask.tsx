@@ -81,6 +81,8 @@ const SubTask = ({ task, subtasks }: PropType) => {
   const queryClient = useQueryClient();
   const [{ data }] = useGetProjects();
 
+  console.log({ data });
+
   // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   const { mutate } = useMutation({
