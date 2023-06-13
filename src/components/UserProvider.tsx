@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { User } from "../types/user";
 //@ts-ignore
 import { useGetUser } from "../hooks/useGetUser";

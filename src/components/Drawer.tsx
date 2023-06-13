@@ -1,5 +1,5 @@
 import { styled, useTheme } from "@mui/material/styles";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-// import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
 import { useState } from "react";
 import TaskList from "./task/TaskList";
@@ -23,13 +22,6 @@ import { Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 
 const drawerWidth = 240;
-
-// const useStyles = makeStyles((theme) => ({
-//   drawer: {
-//     marginTop: theme.spacing(8.5),
-//     background: "green",
-//   },
-// }));
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
