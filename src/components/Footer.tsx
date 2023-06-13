@@ -1,4 +1,3 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Link } from "@material-ui/core";
 
@@ -12,6 +11,8 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.primary.contrastText,
     textDecoration: "none",
+    marginLeft: "4px",
+    marginRight: "2px",
     "&:hover": {
       textDecoration: "underline",
     },
@@ -27,9 +28,13 @@ const Footer = () => {
         &copy; {new Date().getFullYear()} TaskTracker App | All rights reserved
       </Typography>
       <Typography variant="body2">
-        Built with love by{" "}
-        <Link href="https://www.example.com" className={classes.link}>
-          Your Name
+        Built with
+        <Link href="https://appwrite.io/" className={classes.link}>
+          Appwrite
+        </Link>
+        and
+        <Link href="https://vercel.com" className={classes.link}>
+          Vercel
         </Link>
       </Typography>
     </footer>

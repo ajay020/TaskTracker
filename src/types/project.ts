@@ -3,7 +3,8 @@ type Project = {
   $createdAt: string;
   $databaseId: string;
   $id: string;
-  $permissions: any[]; // Adjust the type accordingly if there is a specific structure for permissions
+  $permissions: any[];
   $updatedAt: string;
   name: string;
+  userId: string;
 };

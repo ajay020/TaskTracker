@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Typography } from "@mui/material";
 import api from "../../api/api";
 import { Server } from "../../utils/config";
+import { UserContext } from "../UserProvider";
 
 type PropType = {
   openDialog: boolean;
@@ -22,14 +23,16 @@ export default function AddProjectDialog({
 }: PropType) {
   const [name, setName] = useState("");
 
+  const { user } = useContext(UserContext) ?? {};
+
   // Access the client
   const queryClient = useQueryClient();
 
-  const createProject = async (name: string) => {
+  const createProject = async (data: { name: string; userId: string }) => {
     const project = await api.createDocument(
       Server.databaseID,
       Server.projectCollectionId,
-      { name },
+      { name: data.name, userId: data.userId },
       []
     );
     return project;
@@ -54,12 +57,14 @@ export default function AddProjectDialog({
       //   queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: (error) => {
-      console.log(error);
+      console.log("Error |>>>", error);
     },
   });
 
   const handleAddProject = () => {
-    mutate(name);
+    if (user && name) {
+      mutate({ name, userId: user.$id });
+    }
   };
 
   return (
@@ -67,9 +72,7 @@ export default function AddProjectDialog({
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>New Project</DialogTitle>
         <DialogContent>
-          {isError && (
-            <Typography sx={{ color: "red" }}>{error as string}</Typography>
-          )}
+          {isError && <Typography sx={{ color: "red" }}></Typography>}
           {isLoading && (
             <Typography sx={{ color: "green" }}>Adding...</Typography>
           )}

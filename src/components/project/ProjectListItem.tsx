@@ -7,7 +7,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import EditProjectPopover from "./EditProjectPopover";
 import Brightness1Icon from "@mui/icons-material/Brightness1";
 
@@ -56,7 +55,7 @@ const ProjectListItem = ({ project, handleProjectItemClick }: PropType) => {
           </Box>
         }
       >
-        <ListItemButton onClick={() => handleProjectItemClick(project.name)}>
+        <ListItemButton onClick={() => handleProjectItemClick(project.$id)}>
           <ListItemIcon>
             <Brightness1Icon />
           </ListItemIcon>

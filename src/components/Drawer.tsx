@@ -20,6 +20,7 @@ import ProjectList from "./project/ProjectList";
 import { filterTasks } from "../utils/filterTasks";
 import React from "react";
 import { Typography } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 
 const drawerWidth = 240;
 
@@ -91,13 +92,24 @@ export default function DrawerLeft({ tasks }: PropType) {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   let filteredTasks;
 
   console.log("Drawerleft render");
 
-  const handleProjectItemClick = React.useCallback((project: string) => {
-    setSelectedProject(project);
-    navigate(`?project=${project}`);
+  const handleProjectItemClick = React.useCallback((projectId: string) => {
+    const data = queryClient.getQueryData<{ documents: []; total: number }>([
+      "projects",
+    ]);
+
+    const currProject: Project[] | undefined = data?.documents?.filter(
+      (p: Project) => p.$id === projectId
+    );
+
+    if (currProject) {
+      setSelectedProject(currProject[0]?.name);
+    }
+    navigate(`?project=${projectId}`);
   }, []);
 
   const handleListItemClick = React.useCallback((filter: string) => {
@@ -117,13 +129,9 @@ export default function DrawerLeft({ tasks }: PropType) {
   if (param && filterOn) {
     const filteredBytime = filterTasks(tasks, filterOn);
 
-    filteredTasks = filteredBytime?.filter(
-      (task) => task.project?.toLowerCase() === param?.toLowerCase()
-    );
+    filteredTasks = filteredBytime?.filter((task) => task.projectId === param);
   } else if (param && !filterOn) {
-    filteredTasks = tasks?.filter(
-      (task) => task.project?.toLowerCase() === param?.toLowerCase()
-    );
+    filteredTasks = tasks?.filter((task) => task.projectId === param);
   } else if (filterOn) {
     filteredTasks = filterTasks(tasks, filterOn);
   } else {

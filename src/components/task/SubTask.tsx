@@ -35,12 +35,12 @@ const saveSubtask = async (data: Partial<SubTaskType>) => {
   );
 };
 
-const updateProject = async (data: { $id: string; name: string }) => {
+const updateProject = async (data: { $id: string; projectId: string }) => {
   return await api.updateDocument(
     Server.databaseID,
     Server.taskCollectionID,
     data.$id,
-    { project: data.name }
+    { projectId: data.projectId }
   );
 };
 
@@ -65,9 +65,15 @@ const updateDueDate = async (data: { $id: string; due_date: Dayjs | null }) => {
 const SubTask = ({ task, subtasks }: PropType) => {
   console.log("SubTask render...");
 
+  const [{ data }] = useGetProjects();
+
+  const currProject: Project = data.documents.map(
+    (p: Project) => p.$id === task.projectId
+  );
+
   const [isFormVisible, setIsFormVisible] = React.useState(false);
   const [selectedProject, setSelectedProject] = React.useState<string>(
-    task.project || ""
+    currProject?.name || ""
   );
   const [priority, setPriority] = React.useState<Priority>(
     task.priority || Priority.Low
@@ -79,9 +85,8 @@ const SubTask = ({ task, subtasks }: PropType) => {
   const { user } = useContext(UserContext) ?? {};
 
   const queryClient = useQueryClient();
-  const [{ data }] = useGetProjects();
 
-  console.log({ data });
+  //   console.log({ data });
 
   // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -164,7 +169,7 @@ const SubTask = ({ task, subtasks }: PropType) => {
 
   const handleProjectChange = (event: SelectChangeEvent) => {
     setSelectedProject(event.target.value as string);
-    projectMutation.mutate({ $id: task.$id, name: event.target.value });
+    projectMutation.mutate({ $id: task.$id, projectId: event.target.value });
   };
 
   const handlePriorityChange = (event: SelectChangeEvent) => {

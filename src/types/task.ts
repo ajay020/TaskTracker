@@ -10,7 +10,7 @@ export type TaskType = {
   description: string;
   title: string;
   user: string;
-  project: string;
+  projectId: string;
   due_date: Dayjs | null;
   priority: Priority;
   completed: boolean;

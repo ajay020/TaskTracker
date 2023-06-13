@@ -93,7 +93,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const project = queryParams.get("project");
+    const projectId = queryParams.get("project");
     // console.log(project);
 
     if (title && user) {
@@ -104,7 +104,7 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
         due_date: selectedDueDate,
         priority,
         completed: false,
-        project: project ? project : "",
+        projectId: projectId ? projectId : "",
       };
 
       mutate(task);

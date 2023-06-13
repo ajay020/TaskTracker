@@ -40,7 +40,7 @@ export default function BasicSelect({
         {projects &&
           projects?.map((p: Project) => {
             return (
-              <MenuItem key={p.$id} value={p.name}>
+              <MenuItem key={p.$id} value={p.$id}>
                 {p.name}
               </MenuItem>
             );

@@ -31,6 +31,8 @@ const ProjectList = ({
   //@ts-ignore
   const [{ data, isLoading, isError }] = useGetProjects();
 
+  //   console.log({ data });
+
   const handleItemClick = (item: string) => {
     setSelectedItem(item);
   };

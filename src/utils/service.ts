@@ -44,3 +44,17 @@ export const getUserProfile = async (userId: string | undefined) => {
     [Query.equal("userId", [userId])]
   );
 };
+
+export const getUserProjects = async (userId: string | undefined) => {
+  const client = new Client()
+    .setEndpoint("https://cloud.appwrite.io/v1")
+    .setProject(Server.project);
+
+  const database = new Databases(client);
+
+  return await database.listDocuments(
+    Server.databaseID,
+    Server.projectCollectionId,
+    [Query.equal("userId", [userId])]
+  );
+};

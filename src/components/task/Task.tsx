@@ -1,10 +1,8 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Popover from "@mui/material/Popover";
 
@@ -36,7 +34,6 @@ const deleteTask = async (taskId: string) => {
 };
 
 const Task = ({ task }: PropType) => {
-  console.log("Task render...");
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -84,9 +81,6 @@ const Task = ({ task }: PropType) => {
           }
         );
       }
-
-      // Invalidate and refetch
-      //   queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: (error) => {
       console.log(error);
@@ -207,13 +201,10 @@ const Task = ({ task }: PropType) => {
       />
       <CardContent sx={{ background: "" }}>
         <Typography variant="body2" color="text.secondary">
-          {task.description.substring(0, 50)}
+          {task.description}
         </Typography>
       </CardContent>
-      {/* <CardActions> */}
-
       <TaskAccordian task={task} />
-      {/* </CardActions> */}
     </Card>
   );
 };
