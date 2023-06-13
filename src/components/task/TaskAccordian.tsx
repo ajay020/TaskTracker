@@ -44,6 +44,7 @@ const TaskAccordian = ({ task }: PropType) => {
 
   const handleChange = React.useCallback(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      console.log(event.target);
       setExpanded(isExpanded ? panel : false);
     },
     []
