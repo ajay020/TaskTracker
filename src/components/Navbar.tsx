@@ -14,7 +14,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
-import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { useNavigate } from "react-router-dom";
@@ -22,14 +21,8 @@ import { UserContext } from "./UserProvider";
 import api from "../api/api";
 import Logout from "@mui/icons-material/Logout";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import {
-  Query,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Divider } from "@mui/material";
-import { Server } from "../utils/config";
 import { getUserProfile } from "../utils/service";
 import AddTaskDialog from "./task/AddTaskDialog";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -40,14 +33,14 @@ type PropType = {
 };
 
 function Navbar({ handleDrawerOpen, open }: PropType) {
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  //   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
   const { user, logout } = useContext(UserContext) ?? {};
   const navigate = useNavigate();
 
-  console.log("Navbar render");
+  //   console.log("Navbar render");
 
   const { data: profileData } = useQuery({
     queryKey: ["profile"],

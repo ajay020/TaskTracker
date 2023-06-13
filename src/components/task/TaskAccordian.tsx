@@ -26,8 +26,6 @@ interface QueryDataType {
 const TaskAccordian = ({ task }: PropType) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
-  console.log("TaskAccording render...");
-
   const queryClient = useQueryClient();
 
   const { documents } =

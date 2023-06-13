@@ -28,7 +28,6 @@ const AddTask = ({ handleCloseDialog }: PropType) => {
   const [description, setDescription] = useState("");
   const [selectedDueDate, setSelectedDueDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<Priority>(Priority.Low);
-  const [project, setProject] = useState("");
 
   const queryClient = useQueryClient();
   const location = useLocation();

@@ -31,7 +31,6 @@ export const ChangeSubtaskContext = React.createContext<ContextType | null>(
 );
 
 const TaskList = ({ tasks }: PropType) => {
-  console.log("TaskList render");
   const [isSubtaskChange, setIsSubtaskChange] = React.useState(false);
 
   const handleSubTaskChange = () => {

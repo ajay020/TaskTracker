@@ -24,8 +24,7 @@ const filterTasksByCompleted = (tasks: TaskType[], completed: boolean) => {
 };
 
 const Home = () => {
-  console.log("Home render");
-
+  //   console.log("Home render");
   const { user } = useContext(UserContext) ?? {};
 
   // Fetch all tasks

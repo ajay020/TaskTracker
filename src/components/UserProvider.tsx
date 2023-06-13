@@ -22,9 +22,8 @@ export const UserContext = createContext<null | UserContextType>(null);
 
 const UserProvider = ({ children }: PropType) => {
   const [user, setUser] = useState<User | null>(getUserFromLocalStorage());
-  //   const { data } = useQuery({ queryKey: ["user"], queryFn: fetchUser });
 
-  console.log("UserProvider render");
+  //   console.log("UserProvider render");
 
   const login = (userData: User) => {
     setUser(userData);

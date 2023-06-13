@@ -95,8 +95,6 @@ export default function DrawerLeft({ tasks }: PropType) {
   const queryClient = useQueryClient();
   let filteredTasks;
 
-  console.log("Drawerleft render");
-
   const handleProjectItemClick = React.useCallback((projectId: string) => {
     const data = queryClient.getQueryData<{ documents: []; total: number }>([
       "projects",

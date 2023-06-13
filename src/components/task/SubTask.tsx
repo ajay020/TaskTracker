@@ -63,8 +63,6 @@ const updateDueDate = async (data: { $id: string; due_date: Dayjs | null }) => {
 };
 
 const SubTask = ({ task, subtasks }: PropType) => {
-  console.log("SubTask render...");
-
   const [{ data }] = useGetProjects();
 
   const currProject: Project = data.documents.map(
