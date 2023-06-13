@@ -65,7 +65,11 @@ const SubTaskItem = ({ subtask }: PropType) => {
     },
     // If the mutation fails,
     // use the context returned from onMutate to roll back
-    onError: (context) => {
+    onError: (err, updatedSTask, context) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(updatedSTask);
       queryClient.setQueryData(["subtasks"], context?.previousSubtasks);
     },
     // Always refetch after error or success:

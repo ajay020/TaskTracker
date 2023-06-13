@@ -132,6 +132,7 @@ const Task = ({ task }: PropType) => {
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
       task: TaskType
     ) => {
+      console.log(e.target);
       deleteMutation.mutate(task.$id);
     },
     []
