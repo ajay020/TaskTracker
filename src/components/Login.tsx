@@ -8,37 +8,9 @@ import Typography from "@mui/material/Typography";
 import api from "../api/api";
 
 import timeImg from "../assets/time_management.svg";
-import { makeStyles } from "@mui/styles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "./UserProvider";
 import { toast } from "react-toastify";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  form: {
-    width: "100%",
-    marginTop: "2px",
-  },
-  textField: {
-    marginBottom: "2px",
-  },
-  submitButton: {
-    margin: "4px 0 2px 0",
-  },
-  loginLink: {
-    color: "blue",
-    margin: "2px, 0, 2px",
-  },
-  image: {
-    width: "100%",
-    maxWidth: 500,
-  },
-}));
 
 const updateUser = async () => {
   const user = await api.getAccount();
@@ -51,7 +23,6 @@ const LoginForm = () => {
   const [error, setError] = useState(false);
 
   const navigate = useNavigate();
-  const classes = useStyles();
 
   const { login } = useContext(UserContext) ?? {};
 
@@ -120,11 +91,8 @@ const LoginForm = () => {
           justifyContent: "center",
         }}
       >
-        <Box
-          className={classes.root}
-          sx={{ border: "1px solid lightgray", p: 2 }}
-        >
-          <Typography component="h1" variant="h5">
+        <Box sx={{ border: "1px solid lightgray", p: 2 }}>
+          <Typography textAlign={"center"} component="h1" variant="h4">
             Login
           </Typography>
           <form onSubmit={handleSubmit}>
@@ -134,7 +102,6 @@ const LoginForm = () => {
               onChange={handleEmailChange}
               fullWidth
               margin="normal"
-              className={classes.textField}
               required
               type="email"
             />
@@ -148,29 +115,24 @@ const LoginForm = () => {
               onChange={handlePasswordChange}
               fullWidth
               margin="normal"
-              className={classes.textField}
             />
             <Button
               type="submit"
               variant="contained"
               color="primary"
               fullWidth
-              className={classes.submitButton}
               sx={{ my: 2 }}
             >
               Login
             </Button>
             <Typography variant="body2">
-              Don't have an account?{" "}
-              <Link to="/register" className={classes.loginLink}>
-                Register here
-              </Link>
+              Don't have an account? <Link to="/register">Register here</Link>
             </Typography>
           </form>
         </Box>
 
         <Box sx={{ ml: 4 }}>
-          <img src={timeImg} className={classes.image} />
+          <img src={timeImg} style={{ width: "70%" }} />
         </Box>
       </Box>
     </Box>

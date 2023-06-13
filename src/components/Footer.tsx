@@ -7,12 +7,13 @@ const Footer = () => {
     <footer>
       <Box
         sx={{
-          background: "lightblue",
+          background: "#0F172A",
           mt: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           p: 4,
+          color: "white",
         }}
       >
         <Typography variant="body2">

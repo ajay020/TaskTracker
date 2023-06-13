@@ -8,7 +8,6 @@ import account from "../utils/appwrite";
 // @ts-ignore
 import { ID } from "appwrite";
 import { Link, useNavigate } from "react-router-dom";
-import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 
 import timeImg from "../assets/time_management.svg";
@@ -16,36 +15,36 @@ import api from "../api/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "./UserProvider";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "40%",
-    // background: "green",
-  },
-  form: {
-    width: "100%",
-    marginTop: "2px",
-    display: "flex",
-    flexDirection: "column",
-    background: "teal",
-  },
-  textField: {
-    marginBottom: "2px",
-  },
-  submitButton: {
-    margin: "2px 0 2px",
-  },
-  loginLink: {
-    color: "blue",
-  },
-  image: {
-    width: "100%",
-    maxWidth: 500,
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: "flex",
+//     flexDirection: "column",
+//     alignItems: "center",
+//     justifyContent: "center",
+//     width: "40%",
+//     // background: "green",
+//   },
+//   form: {
+//     width: "100%",
+//     marginTop: "2px",
+//     display: "flex",
+//     flexDirection: "column",
+//     background: "teal",
+//   },
+//   textField: {
+//     marginBottom: "2px",
+//   },
+//   submitButton: {
+//     margin: "2px 0 2px",
+//   },
+//   loginLink: {
+//     color: "blue",
+//   },
+//   image: {
+//     width: "100%",
+//     maxWidth: 500,
+//   },
+// }));
 
 const registerUser = async ({
   email,
@@ -66,7 +65,6 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
-  const classes = useStyles();
   const navigate = useNavigate();
   const { login } = useContext(UserContext) ?? {};
 
@@ -116,20 +114,18 @@ const RegisterForm = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", mx: "auto", mt: 2 }}>
+    <Box sx={{ width: "100%", mx: "auto", mt: 0 }}>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          //   justifyContent: "start",
           //   background: "orange",
+          p: 4,
         }}
       >
-        <Box
-          className={classes.root}
-          sx={{ border: "1px solid lightgray", p: 2 }}
-        >
-          <Typography component="h1" variant="h5">
+        <Box sx={{ border: "1px solid lightgray", p: 2, background: "" }}>
+          <Typography textAlign={"center"} component="h1" variant="h5">
             Register
           </Typography>
           {isLoading && <p>Loading...</p>}
@@ -139,27 +135,27 @@ const RegisterForm = () => {
               value={name}
               onChange={handleNameChange}
               margin="normal"
-              className={classes.textField}
               fullWidth
+              sx={{ mb: 2 }}
             />
             <TextField
+              sx={{ mb: 2 }}
               label="Email"
               value={email}
               onChange={handleEmailChange}
               margin="normal"
-              className={classes.textField}
               fullWidth
               required
               type="email"
             />
             <TextField
+              sx={{ mb: 2 }}
               label="Password"
               type="password"
               value={password}
               placeholder="Password must be at least 8 character long"
               onChange={handlePasswordChange}
               margin="normal"
-              className={classes.textField}
               fullWidth
               error={error}
               required
@@ -170,21 +166,17 @@ const RegisterForm = () => {
               variant="contained"
               color="primary"
               fullWidth
-              className={classes.submitButton}
               sx={{ my: 2 }}
             >
               Register
             </Button>
             <Typography variant="body2">
-              Already have an account?{" "}
-              <Link to="/login" className={classes.loginLink}>
-                Login here
-              </Link>
+              Already have an account? <Link to="/login">Login here</Link>
             </Typography>
           </form>
         </Box>
-        <Box sx={{ ml: 4 }}>
-          <img src={timeImg} className={classes.image} />
+        <Box sx={{ ml: 4, p: 2, background: "" }}>
+          <img src={timeImg} style={{ width: "80%" }} />
         </Box>
       </Box>
     </Box>
