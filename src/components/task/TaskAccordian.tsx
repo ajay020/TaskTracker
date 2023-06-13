@@ -42,6 +42,7 @@ const TaskAccordian = ({ task }: PropType) => {
   const calculatedPercentage =
     (completedSubtasks.length / filteredSubtasks.length) * 100 || 0;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleChange = React.useCallback(
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       console.log(event.target);
