@@ -38,7 +38,7 @@ export default function AddProjectDialog({
     return project;
   };
 
-  const { mutate, error, isError, isLoading } = useMutation({
+  const { mutate, isError, isLoading } = useMutation({
     mutationFn: createProject,
     onSuccess: (data) => {
       handleCloseDialog();

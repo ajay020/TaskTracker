@@ -14,8 +14,6 @@ type PropType = {
 };
 
 const AddTaskDialog = (props: PropType) => {
-  const [task, setTask] = useState<null | Partial<TaskType>>(null);
-
   const { openDialog, handleCloseDialog } = props;
 
   return (

@@ -6,20 +6,10 @@ import { TaskType } from "../../types/task";
 import { UserContext } from "../UserProvider";
 import { getUserSubTasks } from "../../utils/service";
 import addImg from "../../assets/add_task.svg";
-import { makeStyles } from "@mui/styles";
 
 type PropType = {
   tasks: TaskType[] | [];
 };
-
-const useStyles = makeStyles((theme) => ({
-  image: {
-    width: "30%",
-    maxWidth: 500,
-    margin: "auto ",
-    display: "block",
-  },
-}));
 
 type ContextType = {
   handleSubTaskChange: () => void;
@@ -36,8 +26,6 @@ const TaskList = ({ tasks }: PropType) => {
     setIsSubtaskChange(!isSubtaskChange);
   };
 
-  const classes = useStyles();
-
   const { user } = useContext(UserContext) ?? {};
 
   // Fetch all subtasks
@@ -46,8 +34,12 @@ const TaskList = ({ tasks }: PropType) => {
   return (
     <Box>
       {tasks.length === 0 && (
-        <Box sx={{ background: "", mt: 4 }}>
-          <img src={addImg} className={classes.image} alt="add image" />
+        <Box sx={{ mt: 4 }}>
+          <img
+            src={addImg}
+            style={{ width: "50%", display: "block", margin: "auto" }}
+            alt="add image"
+          />
         </Box>
       )}
 

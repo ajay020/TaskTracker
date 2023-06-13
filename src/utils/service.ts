@@ -1,7 +1,6 @@
 //@ts-ignore
 import { Client, Databases, Query } from "appwrite";
 import { Server } from "./config";
-import { User } from "../types/user";
 
 export const getUserTasks = async (userId: string | undefined) => {
   const client = new Client()

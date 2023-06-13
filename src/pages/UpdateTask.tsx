@@ -15,7 +15,6 @@ import PrioritySelect from "../components/PrioritySelect";
 import { SelectChangeEvent } from "@mui/material/Select";
 import MyDatePicker from "../components/MyDatePicker";
 import dayjs, { Dayjs } from "dayjs";
-import timeImg from "../assets/time_management.svg";
 import { Typography } from "@mui/material";
 
 const UpdateTask = () => {
@@ -73,7 +72,7 @@ const UpdateTask = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const res = await api.updateDocument(
+    await api.updateDocument(
       Server.databaseID,
       Server.taskCollectionID,
       task?.["$id"],

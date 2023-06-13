@@ -90,7 +90,7 @@ const Task = ({ task }: PropType) => {
   const deleteMutation = useMutation({
     mutationKey: ["tasks"],
     mutationFn: deleteTask,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Task has been deleted!");
       const tasks = queryClient.getQueryData<{
         documents: TaskType[];

@@ -1,18 +1,6 @@
-import { isToday, isAfter, isBefore } from "date-fns";
+import { isToday, isAfter } from "date-fns";
 import { TaskType } from "../types/task";
 import dayjs from "dayjs";
-
-type filterType = {
-  label: string;
-  value: string;
-};
-
-const filterOptions = [
-  { label: "Today's Tasks", value: "today" },
-  { label: "Upcoming Tasks", value: "upcoming" },
-  { label: "Overdue Tasks", value: "overdue" },
-  { label: "Tasks by Priority", value: "priority" },
-];
 
 export const filterTasks = (tasks: TaskType[], filterOption: string) => {
   switch (filterOption) {

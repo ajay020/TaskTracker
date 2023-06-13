@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import Navbar from "./Navbar";
 
 type PropType = {
   children: ReactNode;
@@ -8,7 +7,6 @@ type PropType = {
 const Layout = ({ children }: PropType) => {
   return (
     <>
-      {/* <Navbar /> */}
       <main>{children}</main>
     </>
   );

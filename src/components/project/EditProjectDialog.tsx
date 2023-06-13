@@ -33,9 +33,8 @@ export default function EditProjectDialog(props: PropType) {
   const { mutate, isLoading } = useMutation({
     mutationKey: ["projects"],
     mutationFn: updateProject,
-    onSuccess: (data) => {
+    onSuccess: () => {
       handleDialogClose();
-      //   console.log({ data });
     },
   });
 

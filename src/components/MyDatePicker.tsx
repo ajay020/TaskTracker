@@ -14,8 +14,6 @@ type PropType = {
 export default function MyDatePicker({
   selectedDueDate,
   handleDueDateChange,
-  variant = "outlined",
-  size = "medium",
 }: PropType) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -46,7 +46,7 @@ const updateUserInfo = async (userInfo: {
   email: string;
   password: string;
 }) => {
-  const namePromise = await account.updateName(userInfo.name);
+  await account.updateName(userInfo.name);
   const emailPromise = await account.updateEmail(
     userInfo.email,
     userInfo.password

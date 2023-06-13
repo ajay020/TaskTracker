@@ -1,7 +1,6 @@
 import api from "../api/api";
 import {
   TaskState,
-  TaskType,
   TaskAction,
   SET_ERROR,
   SET_LOADING,
