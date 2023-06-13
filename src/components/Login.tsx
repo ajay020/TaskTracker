@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import api from "../api/api";
 
 import timeImg from "../assets/time_management.svg";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UserContext } from "./UserProvider";
 import { toast } from "react-toastify";
@@ -19,22 +19,20 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    // marginTop: theme.spacing(1),
-    // background: "green",
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(1),
+    marginTop: "2px",
   },
   textField: {
-    marginBottom: theme.spacing(1),
+    marginBottom: "2px",
   },
   submitButton: {
-    margin: theme.spacing(4, 0, 2, 0),
+    margin: "4px 0 2px 0",
   },
   loginLink: {
-    color: theme.palette.primary.main,
-    margin: theme.spacing(2, 0, 2),
+    color: "blue",
+    margin: "2px, 0, 2px",
   },
   image: {
     width: "100%",

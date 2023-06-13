@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { UserContext } from "../components/UserProvider";
 import { getUserTasks } from "../utils/service";
 import { TaskType } from "../types/task";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import "../utils/userService";
 

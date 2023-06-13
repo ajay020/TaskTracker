@@ -8,7 +8,7 @@ import account from "../utils/appwrite";
 // @ts-ignore
 import { ID } from "appwrite";
 import { Link, useNavigate } from "react-router-dom";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
 import Box from "@mui/material/Box";
 
 import timeImg from "../assets/time_management.svg";
@@ -27,19 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(1),
+    marginTop: "2px",
     display: "flex",
     flexDirection: "column",
     background: "teal",
   },
   textField: {
-    marginBottom: theme.spacing(1),
+    marginBottom: "2px",
   },
   submitButton: {
-    margin: theme.spacing(2, 0, 2),
+    margin: "2px 0 2px",
   },
   loginLink: {
-    color: theme.palette.primary.main,
+    color: "blue",
   },
   image: {
     width: "100%",
